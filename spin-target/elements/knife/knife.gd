@@ -5,7 +5,7 @@ var speed := 4500.0
 
 func _physics_process(delta: float):
 	if is_flying:
-			move_and_collide(Vector2.UP * speed * delta)
+		var collision := move_and_collide(Vector2.UP * speed * delta)
 
 func throw():
 	is_flying = true
