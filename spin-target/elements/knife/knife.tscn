@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://ruqqc8gmoblb" path="res://elements/knife/knife.gd" id="1_qnewu"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qnewu"]
-radius = 11.0
-height = 164.0
+radius = 12.0
+height = 150.0
 
 [node name="Knife" type="CharacterBody2D"]
 collision_layer = 2
@@ -16,5 +16,4 @@ script = ExtResource("1_qnewu")
 texture = ExtResource("1_kf51n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2, 3)
 shape = SubResource("CapsuleShape2D_qnewu")
