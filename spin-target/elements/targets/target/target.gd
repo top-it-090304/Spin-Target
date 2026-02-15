@@ -4,8 +4,8 @@ class_name Target
 const GENERATION_LIMIT := 10
 const KNIFE_POSITION := Vector2(0, 180)
 const APPLE_POSITION := Vector2(0, 176)
-const OBJECT_MARGIN := PI / 6
-const APPLE_NUMBER_ON_TARGET = 5
+const OBJECT_MARGIN := PI / 5
+const APPLE_NUMBER_ON_TARGET = 8
 const KNIFE_NUMBER_ON_TARGET = 4
 
 var knife_scene : PackedScene = load("res://elements/knife/knife.tscn")
