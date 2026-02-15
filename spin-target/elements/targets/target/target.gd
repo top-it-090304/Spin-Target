@@ -5,8 +5,8 @@ const GENERATION_LIMIT := 10
 const KNIFE_POSITION := Vector2(0, 180)
 const APPLE_POSITION := Vector2(0, 176)
 const OBJECT_MARGIN := PI / 6
-const APPLE_NUMBER_ON_TARGET = 2
-const KNIFE_NUMBER_ON_TARGET = 3
+const APPLE_NUMBER_ON_TARGET = 5
+const KNIFE_NUMBER_ON_TARGET = 4
 
 var knife_scene : PackedScene = load("res://elements/knife/knife.tscn")
 var apple_scene : PackedScene = load("res://elements/apple/apple.tscn")
@@ -60,6 +60,6 @@ func get_free_random_rotation(occupied_rotations: Array, generation_attemps=0):
 	for occupied in occupied_rotations:
 		if random_rotation <= occupied + OBJECT_MARGIN / 2.0 and \
 		   random_rotation >= occupied - OBJECT_MARGIN / 2.0:
-			get_free_random_rotation(occupied_rotations, generation_attemps + 1)
+			return get_free_random_rotation(occupied_rotations, generation_attemps + 1)
 	
 	return random_rotation
