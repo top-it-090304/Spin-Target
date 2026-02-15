@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://ruqqc8gmoblb" path="res://elements/knife/knife.gd" id="1_qnewu"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qnewu"]
-radius = 12.0
+radius = 11.0
 height = 164.0
 
 [node name="Knife" type="CharacterBody2D"]
