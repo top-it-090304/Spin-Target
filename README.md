@@ -8,7 +8,7 @@
 ## Скриншоты
 | Главное меню | Игровой процесс | Магазин |
 |--------------|-----------------|---------|
-| ![Start](assets/screen_shots/Start.jpg) | ![Game](assets/screen_shots/Game.jpg) | ![Shop](assets/screen_shots/Shop.jpg) |
+| ![Start](spin-target/assets/screen_shots/Start.jpg) | ![Game](spin-target/assets/screen_shots/Game.jpg) | ![Shop](spin-target/assets/screen_shots/Shop.jpg) |
 
 ## Технологии
 - **Godot Engine** — игровой движок.
