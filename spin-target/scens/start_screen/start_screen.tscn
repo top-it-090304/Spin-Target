@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://oo3el222y6iv"]
+[gd_scene load_steps=6 format=3 uid="uid://oo3el222y6iv"]
 
 [ext_resource type="PackedScene" uid="uid://c077xke7ae2bo" path="res://elements/ui/hud/hud.tscn" id="1_eynv1"]
+[ext_resource type="Script" uid="uid://dopcunx4t8oe4" path="res://scens/start_screen/start_screen.gd" id="1_ojk3x"]
 [ext_resource type="Texture2D" uid="uid://cso6wdxm7tlg8" path="res://assets/knife1.png" id="2_kx7h7"]
 [ext_resource type="StyleBox" uid="uid://cbn128gejjir" path="res://styles/Butten.stylebox" id="3_6yeio"]
 [ext_resource type="Texture2D" uid="uid://dl8yjyw3eu6tm" path="res://assets/gift-ico.png" id="4_6yeio"]
@@ -12,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ojk3x")
 
 [node name="HUD" parent="." instance=ExtResource("1_eynv1")]
 
@@ -76,3 +78,6 @@ size_flags_vertical = 3
 layout_mode = 2
 texture_normal = ExtResource("4_6yeio")
 stretch_mode = 5
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainer2/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainer3/TextureButton" to="." method="_on_texture_button_pressed"]

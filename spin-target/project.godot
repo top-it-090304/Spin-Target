@@ -11,12 +11,13 @@ config_version=5
 [application]
 
 config/name="Spin Target"
-run/main_scene="uid://bh4stgktopdvk"
+run/main_scene="uid://oo3el222y6iv"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
+Events="*res://core/events.gd"
 Globals="*res://core/globals.gd"
 
 [display]
