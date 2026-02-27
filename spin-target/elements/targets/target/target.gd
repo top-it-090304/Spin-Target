@@ -26,6 +26,8 @@ var remaining_apples: int = 0
 ]
 
 func explode():
+	if not is_inside_tree():
+		return
 	sprite.hide()
 	items_container.hide()
 	knife_particles.rotation = -rotation
@@ -38,9 +40,13 @@ func explode():
 		
 	knife_particles.emitting = true
 	tween.play()
+	_play_explosion_sound()
 
 func _physics_process(delta: float):
 	rotation += speed * delta
+	if remaining_apples > 0 and _get_apples_on_target() == 0:
+		remaining_apples = 0
+		_on_all_apples_collected()
 
 
 func _ready():
@@ -123,3 +129,18 @@ func _setup_level() -> void:
 	for i in range(target_particles.size()):
 		if i < textures.size() and textures[i]:
 			target_particles[i].texture = textures[i]
+
+
+func _play_explosion_sound() -> void:
+	var audio := $AudioExplosion
+	if audio:
+		audio.play()
+
+
+func _get_apples_on_target() -> int:
+	var count := 0
+	for pivot in items_container.get_children():
+		for child in pivot.get_children():
+			if child is Apple:
+				count += 1
+	return count

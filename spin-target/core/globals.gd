@@ -14,10 +14,11 @@ const KNIVES_COUNT := 9
 
 const LEVEL_COUNT := 6
 var current_level: int = 0
+var current_knife_index: int = 0
 
 func _ready():
 	rmg.randomize()
-	_init_knives()
+	_load_progress()
 	Events.location_changed.connect(handle_location_change)
 
 
@@ -38,6 +39,7 @@ func add_apples(amount: int) -> void:
 	if apples < 0:
 		apples = 0
 	Events.apples_changed.emit(apples)
+	_save_progress()
 
 
 func can_spend_apples(cost: int) -> bool:
@@ -49,6 +51,7 @@ func spend_apples(cost: int) -> bool:
 		return false
 	apples -= cost
 	Events.apples_changed.emit(apples)
+	_save_progress()
 	return true
 
 
@@ -71,6 +74,7 @@ func unlock_random_knife() -> int:
 	var random_index: int = locked_indices[random_array_index]
 	unlocked_knives[random_index] = true
 	Events.knives_changed.emit()
+	_save_progress()
 	return random_index
 
 
@@ -78,4 +82,33 @@ func go_to_next_level() -> void:
 	current_level += 1
 	if current_level >= LEVEL_COUNT:
 		current_level = 0
+	_save_progress()
 	Events.location_changed.emit(Events.LOCATIONS.GAME)
+
+
+func _save_progress() -> void:
+	var config := ConfigFile.new()
+	config.set_value("progress", "apples", apples)
+	config.set_value("progress", "current_level", current_level)
+	config.set_value("progress", "current_knife_index", current_knife_index)
+	config.set_value("progress", "unlocked_knives", unlocked_knives)
+	config.save("user://save.cfg")
+
+
+func _load_progress() -> void:
+	var config := ConfigFile.new()
+	var err := config.load("user://save.cfg")
+	if err != OK:
+		_init_knives()
+		return
+
+	apples = int(config.get_value("progress", "apples", 0))
+	current_level = int(config.get_value("progress", "current_level", 0))
+	current_knife_index = int(config.get_value("progress", "current_knife_index", 0))
+	unlocked_knives = config.get_value("progress", "unlocked_knives", [])
+
+	if unlocked_knives.size() != KNIVES_COUNT:
+		_init_knives()
+	else:
+		Events.apples_changed.emit(apples)
+		Events.knives_changed.emit()

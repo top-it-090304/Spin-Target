@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxddqcqlg7f34"]
+[gd_scene load_steps=6 format=3 uid="uid://bxddqcqlg7f34"]
 
 [ext_resource type="Texture2D" uid="uid://cso6wdxm7tlg8" path="res://assets/knife1.png" id="1_kf51n"]
 [ext_resource type="Script" uid="uid://ruqqc8gmoblb" path="res://elements/knife/knife.gd" id="1_qnewu"]
+[ext_resource type="AudioStream" path="res://assets/audio/knife_hit.wav" id="2_hit"]
+[ext_resource type="AudioStream" path="res://assets/audio/wood_hit.wav" id="3_wood"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qnewu"]
 radius = 12.0
@@ -17,3 +19,9 @@ texture = ExtResource("1_kf51n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_qnewu")
+
+[node name="AudioHit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_hit")
+
+[node name="AudioWood" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_wood")

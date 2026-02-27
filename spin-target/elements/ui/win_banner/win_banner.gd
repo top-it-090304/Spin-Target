@@ -6,6 +6,8 @@ func _ready() -> void:
 
 
 func show_banner_and_next_level() -> void:
+	if not is_inside_tree():
+		return
 	show()
 	var tween := create_tween()
 	tween.tween_property(self, "modulate:a", 1.0, 0.3).from(0.0)

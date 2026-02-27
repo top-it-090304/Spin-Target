@@ -1,4 +1,5 @@
 extends Node2D
+class_name Apple
 
 const EXPOSION_TIME := 1.0
 
