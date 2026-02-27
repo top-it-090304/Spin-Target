@@ -12,6 +12,9 @@ var apples: int = 0
 var unlocked_knives: Array = []
 const KNIVES_COUNT := 9
 
+const LEVEL_COUNT := 6
+var current_level: int = 0
+
 func _ready():
 	rmg.randomize()
 	_init_knives()
@@ -69,3 +72,10 @@ func unlock_random_knife() -> int:
 	unlocked_knives[random_index] = true
 	Events.knives_changed.emit()
 	return random_index
+
+
+func go_to_next_level() -> void:
+	current_level += 1
+	if current_level >= LEVEL_COUNT:
+		current_level = 0
+	Events.location_changed.emit(Events.LOCATIONS.GAME)

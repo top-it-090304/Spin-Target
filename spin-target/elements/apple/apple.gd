@@ -9,7 +9,7 @@ var is_hitted := false
 ]
 @onready var sprite := $Sprite2D
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
+func _on_area_2d_body_entered(_body: Node2D) -> void:
 	if not is_hitted:
 		is_hitted = true
 		sprite.hide()
@@ -21,5 +21,19 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			tween.parallel().tween_property(particle, "modulate", Color("ffffff00"), EXPOSION_TIME)
 
 		tween.play()
+
+		var target: Target = _find_target()
+		if target != null:
+			target.on_apple_hit()
+
 		await tween.finished
 		queue_free()
+
+
+func _find_target() -> Target:
+	var node := get_parent()
+	while node and not (node is Target):
+		node = node.get_parent()
+	if node is Target:
+		return node
+	return null
