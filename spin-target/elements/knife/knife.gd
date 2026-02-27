@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Knife
 
 enum State {IDLE, FLY_TO_TARGET, FLY_AWAY}
 var state := State.IDLE
@@ -43,9 +44,12 @@ func throw():
 func handle_collision(collision: KinematicCollision2D):
 	var collider := collision.get_collider()
 	if collider is Target:
-		_play_hit_sound()
+		_play_wood_hit_sound()
 		add_knife_to_target(collider)
 		change_state(State.IDLE)
+	elif collider is Knife:
+		_play_hit_sound()
+		throw_away(collision.get_normal())
 	else:
 		_play_wood_hit_sound()
 		throw_away(collision.get_normal())

@@ -129,6 +129,16 @@ func _setup_level() -> void:
 	for i in range(target_particles.size()):
 		if i < textures.size() and textures[i]:
 			target_particles[i].texture = textures[i]
+	# текстура ножей в частицах должна совпадать с выбранным ножом
+	var knife_index := Globals.current_knife_index + 1
+	if knife_index < 1:
+		knife_index = 1
+	if knife_index > 9:
+		knife_index = 9
+	var knife_texture_path := "res://assets/knife%d.png" % knife_index
+	var knife_texture := load(knife_texture_path)
+	if knife_texture and knife_particles:
+		knife_particles.texture = knife_texture
 
 
 func _play_explosion_sound() -> void:
