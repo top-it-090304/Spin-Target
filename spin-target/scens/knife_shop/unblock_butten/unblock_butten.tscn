@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cds80n3i16mi"]
+[gd_scene load_steps=6 format=3 uid="uid://cds80n3i16mi"]
 
 [ext_resource type="Texture2D" uid="uid://c076ottpxnfh4" path="res://assets/button2.png" id="1_u51xb"]
 [ext_resource type="Texture2D" uid="uid://v7i8pj2qj2no" path="res://assets/knife_ico_1.png" id="2_08856"]
 [ext_resource type="Texture2D" uid="uid://c58bpd5jbr21l" path="res://assets/apple2.png" id="3_jidmw"]
+[ext_resource type="Script" path="res://scens/knife_shop/unblock_butten/unblock_butten.gd" id="4_x6r1q"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6yuy6"]
 texture = ExtResource("1_u51xb")
@@ -16,6 +17,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxTexture_6yuy6")
+script = ExtResource("4_x6r1q")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2

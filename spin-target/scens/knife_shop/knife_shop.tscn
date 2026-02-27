@@ -69,27 +69,35 @@ layout_mode = 2
 
 [node name="ShopItem2" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("4_2keb8")]
 layout_mode = 2
+index = 1
 
 [node name="ShopItem3" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("4_2keb8")]
 layout_mode = 2
+index = 2
 
 [node name="ShopItem4" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("4_2keb8")]
 layout_mode = 2
+index = 3
 
 [node name="ShopItem5" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("4_2keb8")]
 layout_mode = 2
+index = 4
 
 [node name="ShopItem6" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("4_2keb8")]
 layout_mode = 2
+index = 5
 
 [node name="ShopItem7" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("4_2keb8")]
 layout_mode = 2
+index = 6
 
 [node name="ShopItem8" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("4_2keb8")]
 layout_mode = 2
+index = 7
 
 [node name="ShopItem9" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("4_2keb8")]
 layout_mode = 2
+index = 8
 
 [node name="UnblockButten" parent="MarginContainer/VBoxContainer" instance=ExtResource("5_ejbnp")]
 layout_mode = 2

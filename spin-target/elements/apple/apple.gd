@@ -13,6 +13,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if not is_hitted:
 		is_hitted = true
 		sprite.hide()
+		Globals.add_apples(1)
+
 		var tween = create_tween()
 		for particle in particles:
 			particle.emitting = true

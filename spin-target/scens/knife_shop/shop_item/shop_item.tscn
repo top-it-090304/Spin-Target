@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0l5tm55rphvt"]
+[gd_scene load_steps=4 format=3 uid="uid://c0l5tm55rphvt"]
 
 [ext_resource type="Texture2D" uid="uid://bu3qa4uimyddu" path="res://assets/locked.png" id="1_w1r1b"]
+[ext_resource type="Script" uid="uid://bqdsx7webqp8u" path="res://scens/knife_shop/shop_item/shop_item.gd" id="2_w9f3y"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x5at5"]
 
@@ -10,6 +11,7 @@ offset_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_x5at5")
+script = ExtResource("2_w9f3y")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 2
