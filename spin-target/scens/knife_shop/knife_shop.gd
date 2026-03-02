@@ -1,13 +1,14 @@
 extends Control
 
-@onready var preview := $MarginContainer/VBoxContainer/CenterContainer/TextureRect
+@onready var preview := $MarginContainer/VBoxContainer/TextureRect
 
 
 func _ready() -> void:
-	_update_preview()
+	Events.knives_changed.connect(_on_knives_changed)
+	_on_knives_changed()
 
 
-func _update_preview() -> void:
+func _on_knives_changed() -> void:
 	if not preview:
 		return
 	var knife_index := Globals.current_knife_index + 1
@@ -20,10 +21,3 @@ func _update_preview() -> void:
 	if texture:
 		preview.texture = texture
 
-
-func _on_button_pressed() -> void:
-	Events.location_changed.emit(Events.LOCATIONS.GAME)
-
-
-func _on_texture_button_pressed() -> void:
-	Events.location_changed.emit(Events.LOCATIONS.SHOP)

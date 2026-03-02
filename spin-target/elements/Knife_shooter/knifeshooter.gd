@@ -8,6 +8,7 @@ const KNIVES_PER_LEVEL := Target.APPLE_NUMBER_ON_TARGET + 1
 @onready var timer := $Timer
 
 var remaining_knives: int = 0
+var game_over: bool = false
 
 
 func _ready() -> void:
@@ -16,17 +17,23 @@ func _ready() -> void:
 
 
 func create_new_knife():
+	if game_over:
+		return
 	knife = knife_scene.instantiate()
 	add_child(knife)
 	remaining_knives -= 1
 	
 func _input(event: InputEvent):
+	if game_over:
+		return
 	if event is InputEventScreenTouch and event.is_pressed() and timer.time_left <= 0:
 		knife.throw()
 		timer.start()
 
 
 func _on_timer_timeout():
+	if game_over:
+		return
 	if remaining_knives > 0:
 		create_new_knife()
 	else:
@@ -34,10 +41,11 @@ func _on_timer_timeout():
 
 
 func _check_lose_condition() -> void:
+	game_over = true
 	var target := get_tree().get_first_node_in_group("target")
 	if target and target.has_apples_left():
 		var banner := get_tree().get_first_node_in_group("lose_banner")
 		if banner:
 			banner.call("show_banner_and_restart_level")
 		else:
-			Events.location_changed.emit(Events.LOCATIONS.GAME)
+			Events.location_changed.emit(Events.LOCATIONS.START)

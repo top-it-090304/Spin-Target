@@ -42,11 +42,30 @@ func explode():
 	tween.play()
 	_play_explosion_sound()
 
+var phase_time: float = 0.0
+var rotation_direction: int = 1
+
+
 func _physics_process(delta: float):
-	rotation += speed * delta
+	_update_rotation(delta)
 	if remaining_apples > 0 and _get_apples_on_target() == 0:
 		remaining_apples = 0
 		_on_all_apples_collected()
+
+
+func _update_rotation(delta: float) -> void:
+	phase_time += delta
+	if Globals.current_level >= 4:
+		# сложный уровень: 5 секунд вправо, 3 секунды влево по кругу
+		if rotation_direction == 1 and phase_time >= 5.0:
+			rotation_direction = -1
+			phase_time = 0.0
+		elif rotation_direction == -1 and phase_time >= 3.0:
+			rotation_direction = 1
+			phase_time = 0.0
+		rotation += speed * rotation_direction * delta
+	else:
+		rotation += speed * delta
 
 
 func _ready():
@@ -105,6 +124,9 @@ func on_apple_hit() -> void:
 
 func _on_all_apples_collected() -> void:
 	explode()
+	var shooter := get_tree().get_first_node_in_group("knifeshooter")
+	if shooter:
+		shooter.game_over = true
 	var banner := get_tree().get_first_node_in_group("win_banner")
 	if banner:
 		banner.call("show_banner_and_next_level")

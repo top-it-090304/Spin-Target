@@ -14,6 +14,5 @@ func show_banner_and_restart_level() -> void:
 	await tween.finished
 	await get_tree().create_timer(1.5).timeout
 	hide()
-	Globals.location_to_scene[Events.LOCATIONS.GAME] # touch to ensure autoload
-	Events.location_changed.emit(Events.LOCATIONS.GAME)
+	Events.location_changed.emit(Events.LOCATIONS.START)
 
