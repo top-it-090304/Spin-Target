@@ -23,7 +23,7 @@ func create_new_knife():
 	add_child(knife)
 	remaining_knives -= 1
 	
-func _input(event: InputEvent):
+func _unhandled_input(event: InputEvent) -> void:
 	if game_over:
 		return
 	if event is InputEventScreenTouch and event.is_pressed() and timer.time_left <= 0:
@@ -44,8 +44,6 @@ func _check_lose_condition() -> void:
 	game_over = true
 	var target := get_tree().get_first_node_in_group("target")
 	if target and target.has_apples_left():
-		var banner := get_tree().get_first_node_in_group("lose_banner")
-		if banner:
-			banner.call("show_banner_and_restart_level")
-		else:
-			Events.location_changed.emit(Events.LOCATIONS.START)
+		var overlay := get_tree().get_first_node_in_group("restart_overlay")
+		if overlay:
+			overlay.show_overlay()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c077xke7ae2bo"]
+[gd_scene load_steps=8 format=3 uid="uid://c077xke7ae2bo"]
 
 [ext_resource type="Texture2D" uid="uid://cxc0eg6ywmqi5" path="res://assets/background.png" id="1_62tqk"]
 [ext_resource type="Script" uid="uid://0dcwwahf0r15" path="res://elements/ui/hud/hud.gd" id="1_n5s42"]
@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://fj11q3al6t66" path="res://assets/boss_ico.png" id="3_2xxep"]
 [ext_resource type="Texture2D" uid="uid://c58bpd5jbr21l" path="res://assets/apple2.png" id="4_n5s42"]
 [ext_resource type="Texture2D" uid="uid://c5jx2g5jh4i36" path="res://assets/knife_ico_2.png" id="5_2xxep"]
-[ext_resource type="Texture2D" path="res://assets/knife_ico_1.png" id="6_kn_ico"]
+[ext_resource type="Texture2D" uid="uid://v7i8pj2qj2no" path="res://assets/knife_ico_1.png" id="6_kn_ico"]
 
 [node name="HUD" type="CanvasLayer"]
 layer = 5
@@ -106,7 +106,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_constants/separation = 10
-alignment = 0
 
 [node name="TextureRectKnife" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer3"]
 custom_minimum_size = Vector2(0, 60)
