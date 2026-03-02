@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://5u38goy27xqn" path="res://elements/Knife_shooter/knifeshooter.gd" id="1_gkfcy"]
 [ext_resource type="PackedScene" uid="uid://bxddqcqlg7f34" path="res://elements/knife/knife.tscn" id="2_uioxl"]
 
-[node name="Knifeshooter" type="Node2D"]
+[node name="Knifeshooter" type="Node2D" groups=["knifeshooter"]]
 script = ExtResource("1_gkfcy")
 
 [node name="Timer" type="Timer" parent="."]

@@ -6,7 +6,7 @@ const GENERATION_LIMIT := 10
 const KNIFE_POSITION := Vector2(0, 180)
 const APPLE_POSITION := Vector2(0, 176)
 const OBJECT_MARGIN := PI / 5
-const APPLE_NUMBER_ON_TARGET := 8
+const APPLE_NUMBER_ON_TARGET := 6
 const KNIFE_NUMBER_ON_TARGET := 3
 
 var knife_scene : PackedScene = load("res://elements/knife/knife.tscn")
@@ -154,3 +154,7 @@ func _get_apples_on_target() -> int:
 			if child is Apple:
 				count += 1
 	return count
+
+
+func has_apples_left() -> bool:
+	return _get_apples_on_target() > 0
