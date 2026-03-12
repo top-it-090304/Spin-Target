@@ -55,8 +55,19 @@ func _physics_process(delta: float):
 
 func _update_rotation(delta: float) -> void:
 	phase_time += delta
-	if Globals.current_level >= 4:
-		# сложный уровень: 5 секунд вправо, 3 секунды влево по кругу
+
+	var level_idx := Globals.current_level
+	var last_level := Globals.LEVEL_COUNT - 1
+
+	if level_idx == last_level:
+		# босс: полностью непредсказуемое вращение
+		if phase_time >= Globals.rmg.randf_range(1.0, 3.0):
+			phase_time = 0.0
+			rotation_direction = 1 if Globals.rmg.randi_range(0, 1) == 0 else -1
+			speed = PI * Globals.rmg.randf_range(0.5, 2.0)
+		rotation += speed * rotation_direction * delta
+	elif level_idx >= last_level - 1:
+		# предпоследний уровень: шаблон 5 сек вправо, 3 сек влево
 		if rotation_direction == 1 and phase_time >= 5.0:
 			rotation_direction = -1
 			phase_time = 0.0
@@ -65,6 +76,7 @@ func _update_rotation(delta: float) -> void:
 			phase_time = 0.0
 		rotation += speed * rotation_direction * delta
 	else:
+		# обычные уровни
 		rotation += speed * delta
 
 

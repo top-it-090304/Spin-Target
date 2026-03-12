@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @onready var apples_label := $MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/Label
 @onready var knives_row := $MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer
+@onready var level_icons_row := $MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer
 
 
 func _ready() -> void:
@@ -9,10 +10,12 @@ func _ready() -> void:
 	_on_apples_changed(Globals.apples)
 	_hide_home_on_start()
 	_update_knives_visual()
+	_update_level_icons()
 
 
 func _process(_delta: float) -> void:
 	_update_knives_visual()
+	_update_level_icons()
 
 
 func _on_apples_changed(apples: int) -> void:
@@ -37,7 +40,7 @@ func _update_knives_visual() -> void:
 	var current_scene := get_tree().current_scene
 	var is_game := current_scene and current_scene.name == "Game"
 
-	# показываем визуальный счётчик только в игре
+	# визуальный счётчик ножей только в игре
 	knives_row.get_parent().visible = is_game
 	if not is_game:
 		return
@@ -55,3 +58,24 @@ func _update_knives_visual() -> void:
 			icon.modulate = Color(1, 1, 1, 1)
 		else:
 			icon.modulate = Color(1, 1, 1, 0.2)
+
+
+func _update_level_icons() -> void:
+	if not level_icons_row:
+		return
+
+	var current_scene := get_tree().current_scene
+	var is_game := current_scene and current_scene.name == "Game"
+	level_icons_row.visible = is_game
+	if not is_game:
+		return
+
+	var icons := level_icons_row.get_children()
+	var level_idx := Globals.current_level
+
+	for i in range(icons.size()):
+		var icon = icons[i]
+		if i <= level_idx:
+			icon.modulate = Color(1, 1, 1, 1)
+		else:
+			icon.modulate = Color(1, 1, 1, 0.3)

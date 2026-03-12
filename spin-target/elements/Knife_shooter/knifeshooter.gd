@@ -2,7 +2,7 @@ extends Node2D
 
 var knife_scene := preload("res://elements/knife/knife.tscn")
 
-const KNIVES_PER_LEVEL := Target.APPLE_NUMBER_ON_TARGET + 1
+const KNIVES_PER_LEVEL: int = 7
 
 @onready var knife := $Knife
 @onready var timer := $Timer
