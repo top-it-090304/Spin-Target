@@ -22,6 +22,8 @@ func _update_preview() -> void:
 
 
 func _on_button_pressed() -> void:
+	Globals.current_level = 0
+	Globals._save_progress()
 	Events.location_changed.emit(Events.LOCATIONS.GAME)
 
 

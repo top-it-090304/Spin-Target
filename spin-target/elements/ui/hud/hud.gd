@@ -48,13 +48,15 @@ func _update_knives_visual() -> void:
 	var shooter := get_tree().get_first_node_in_group("knifeshooter")
 	if not shooter:
 		return
-
 	var throws_left: int = shooter.remaining_knives + 1
 	var icons := knives_row.get_children()
+	var total := icons.size()
 
 	for i in range(icons.size()):
 		var icon = icons[i]
-		if i < throws_left:
+		# сверху вниз гасим — последние иконки соответствуют оставшимся ножам
+		var from_bottom_index := total - 1 - i
+		if from_bottom_index < throws_left:
 			icon.modulate = Color(1, 1, 1, 1)
 		else:
 			icon.modulate = Color(1, 1, 1, 0.2)
