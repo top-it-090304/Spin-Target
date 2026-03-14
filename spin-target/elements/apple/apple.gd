@@ -14,7 +14,12 @@ func _on_area_2d_body_entered(_body: Node2D) -> void:
 	if not is_hitted:
 		is_hitted = true
 		sprite.hide()
-		Globals.add_apples(1)
+		if Globals.current_level == Globals.LEVEL_COUNT - 1:
+			var boss_index := int(Globals.total_levels_passed / Globals.LEVEL_COUNT) + 1
+			var reward_per_apple := boss_index * 10
+			Globals.add_apples(reward_per_apple)
+		else:
+			Globals.add_apples(1)
 
 		var tween = create_tween()
 		for particle in particles:
