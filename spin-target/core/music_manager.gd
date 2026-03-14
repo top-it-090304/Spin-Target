@@ -3,7 +3,7 @@ extends Node
 const CATEGORY_NORMAL := "normal"
 const CATEGORY_BOSS := "boss"
 
-const NORMAL_TRACKS := [
+const NORMAL_TRACKS: Array[String] = [
 	"res://music/normal/2-ABOVE-ZERO.ogg",
 	"res://music/normal/AcousticRock.ogg",
 	"res://music/normal/AwayInAMangerEDM.ogg",
@@ -14,7 +14,7 @@ const NORMAL_TRACKS := [
 	"res://music/normal/cairn_-_spin_around__SkySound.cc_.ogg",
 ]
 
-const BOSS_TRACKS := [
+const BOSS_TRACKS: Array[String] = [
 	"res://music/boss/BanjoHop.ogg",
 	"res://music/boss/BustinLoose.ogg",
 	"res://music/boss/HeavyAction.ogg",
@@ -96,4 +96,3 @@ func _pick_random_index(count: int, last_index: int) -> int:
 	if idx == last_index:
 		idx = (idx + 1) % count
 	return idx
-
