@@ -27,5 +27,6 @@ func _on_button_pressed() -> void:
 	if animation_player:
 		animation_player.stop()
 	hide()
+	Globals.reset_to_first_level()
 	Events.location_changed.emit(Events.LOCATIONS.GAME)
 

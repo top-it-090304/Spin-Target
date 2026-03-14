@@ -97,6 +97,11 @@ func get_unlock_cost() -> int:
 	return knife_prices[index]
 
 
+func reset_to_first_level() -> void:
+	current_level = 0
+	_save_progress()
+
+
 func go_to_next_level() -> void:
 	total_levels_passed += 1
 
