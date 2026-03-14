@@ -11,6 +11,11 @@ var remaining_knives: int = 0
 var game_over: bool = false
 
 
+func get_throws_left() -> int:
+	var in_hand := is_instance_valid(knife) and knife.get_parent() == self
+	return (1 if in_hand else 0) + remaining_knives
+
+
 func _ready() -> void:
 	# уже есть один нож в сцене
 	remaining_knives = KNIVES_PER_LEVEL - 1

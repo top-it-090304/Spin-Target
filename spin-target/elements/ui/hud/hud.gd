@@ -48,7 +48,7 @@ func _update_knives_visual() -> void:
 	var shooter := get_tree().get_first_node_in_group("knifeshooter")
 	if not shooter:
 		return
-	var throws_left: int = shooter.remaining_knives + 1
+	var throws_left: int = shooter.get_throws_left()
 	var icons := knives_row.get_children()
 	var total := icons.size()
 
