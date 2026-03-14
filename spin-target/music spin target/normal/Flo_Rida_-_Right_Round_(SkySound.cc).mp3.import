@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b204o8jx4ehmf"
+path="res://.godot/imported/Flo_Rida_-_Right_Round_(SkySound.cc).mp3-25da92ff5e3ec559a218e71fe3c374b4.mp3str"
+
+[deps]
+
+source_file="res://music spin target/normal/Flo_Rida_-_Right_Round_(SkySound.cc).mp3"
+dest_files=["res://.godot/imported/Flo_Rida_-_Right_Round_(SkySound.cc).mp3-25da92ff5e3ec559a218e71fe3c374b4.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

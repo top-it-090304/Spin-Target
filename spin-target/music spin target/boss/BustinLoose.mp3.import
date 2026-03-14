@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c3pad5clygc8q"
+path="res://.godot/imported/BustinLoose.mp3-4bc9e22a9e4d5ec6d0e14e7a5d401fd0.mp3str"
+
+[deps]
+
+source_file="res://music spin target/boss/BustinLoose.mp3"
+dest_files=["res://.godot/imported/BustinLoose.mp3-4bc9e22a9e4d5ec6d0e14e7a5d401fd0.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

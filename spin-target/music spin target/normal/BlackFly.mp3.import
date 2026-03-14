@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dncg5um0a0mli"
+path="res://.godot/imported/BlackFly.mp3-252b5cbb51d1d1cda789a5a8a34cff26.mp3str"
+
+[deps]
+
+source_file="res://music spin target/normal/BlackFly.mp3"
+dest_files=["res://.godot/imported/BlackFly.mp3-252b5cbb51d1d1cda789a5a8a34cff26.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

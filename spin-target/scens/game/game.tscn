@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bh4stgktopdvk"]
+[gd_scene load_steps=8 format=3 uid="uid://bh4stgktopdvk"]
 
 [ext_resource type="PackedScene" uid="uid://c077xke7ae2bo" path="res://elements/ui/hud/hud.tscn" id="1_5fchp"]
 [ext_resource type="PackedScene" uid="uid://c063vf7c2x3m3" path="res://elements/Knife_shooter/knifeshooter.tscn" id="2_33bt6"]
@@ -6,8 +6,10 @@
 [ext_resource type="PackedScene" path="res://elements/ui/win_banner/win_banner.tscn" id="4_wb1"]
 [ext_resource type="PackedScene" uid="uid://c5w6nk4bkc8we" path="res://elements/ui/lose_banner/lose_banner.tscn" id="5_lb1"]
 [ext_resource type="PackedScene" uid="uid://ww75y3so6ud8" path="res://elements/ui/restart_overlay/restart_overlay.tscn" id="6_ro"]
+[ext_resource type="Script" path="res://scens/game/game.gd" id="7_game"]
 
 [node name="Game" type="Node2D"]
+script = ExtResource("7_game")
 
 [node name="HUD" parent="." instance=ExtResource("1_5fchp")]
 

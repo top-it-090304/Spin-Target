@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dkstjasujnhq"
+path="res://.godot/imported/2 ABOVE ZERO.mp3-ce7eb8993bf117c19ada2523b02ebdd5.mp3str"
+
+[deps]
+
+source_file="res://music spin target/normal/2 ABOVE ZERO.mp3"
+dest_files=["res://.godot/imported/2 ABOVE ZERO.mp3-ce7eb8993bf117c19ada2523b02ebdd5.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://p8hh55ireh78"
+path="res://.godot/imported/AcousticRock.mp3-cc5c4bdec56931a1feae8fb6d3506e6d.mp3str"
+
+[deps]
+
+source_file="res://music spin target/normal/AcousticRock.mp3"
+dest_files=["res://.godot/imported/AcousticRock.mp3-cc5c4bdec56931a1feae8fb6d3506e6d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

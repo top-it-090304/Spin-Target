@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c6f5uk7inawvn"
+path="res://.godot/imported/cairn_-_spin_around_(SkySound.cc).mp3-6790815fc39d4ee7e368f9c24586a3c3.mp3str"
+
+[deps]
+
+source_file="res://music spin target/normal/cairn_-_spin_around_(SkySound.cc).mp3"
+dest_files=["res://.godot/imported/cairn_-_spin_around_(SkySound.cc).mp3-6790815fc39d4ee7e368f9c24586a3c3.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

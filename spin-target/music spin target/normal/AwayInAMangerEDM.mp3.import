@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://iatdjfytbpad"
+path="res://.godot/imported/AwayInAMangerEDM.mp3-1987fbe0d66c5e301f5cf72af9cff33e.mp3str"
+
+[deps]
+
+source_file="res://music spin target/normal/AwayInAMangerEDM.mp3"
+dest_files=["res://.godot/imported/AwayInAMangerEDM.mp3-1987fbe0d66c5e301f5cf72af9cff33e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
