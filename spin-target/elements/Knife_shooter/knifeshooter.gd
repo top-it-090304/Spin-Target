@@ -26,6 +26,9 @@ func create_new_knife():
 func _unhandled_input(event: InputEvent) -> void:
 	if game_over:
 		return
+	# бросок только если нож в руке (не на мишени)
+	if not is_instance_valid(knife) or knife.get_parent() != self:
+		return
 	if event is InputEventScreenTouch and event.is_pressed() and timer.time_left <= 0:
 		knife.throw()
 		timer.start()

@@ -99,6 +99,7 @@ func get_unlock_cost() -> int:
 
 func reset_to_first_level() -> void:
 	current_level = 0
+	total_levels_passed = 0
 	_save_progress()
 
 
