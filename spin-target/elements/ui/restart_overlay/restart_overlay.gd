@@ -13,7 +13,8 @@ func _ready() -> void:
 
 func _update_level_label() -> void:
 	if label_level:
-		label_level.text = str(Globals.current_level + 1)
+		# stage = общее количество пройденных уровней + 1
+		label_level.text = str(Globals.total_levels_passed + 1)
 
 
 func show_overlay() -> void:
