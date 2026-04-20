@@ -21,6 +21,12 @@ func _update_preview() -> void:
 		preview.texture = texture
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	# Поддержка геймпада для начала игры
+	if event.is_action_pressed("ui_accept"):
+		_on_button_pressed()
+
+
 func _on_button_pressed() -> void:
 	Globals.current_level = 0
 	Globals._save_progress()
@@ -29,3 +35,7 @@ func _on_button_pressed() -> void:
 
 func _on_texture_button_pressed() -> void:
 	Events.location_changed.emit(Events.LOCATIONS.SHOP)
+
+
+func _on_settings_button_pressed() -> void:
+	Events.location_changed.emit(Events.LOCATIONS.SETTINGS)

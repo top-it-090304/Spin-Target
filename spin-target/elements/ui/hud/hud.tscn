@@ -144,4 +144,26 @@ texture = ExtResource("5_2xxep")
 layout_mode = 2
 texture = ExtResource("5_2xxep")
 
+[node name="ComboLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -50.0
+offset_right = 100.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "COMBO x5
+1.5x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/HomeButton" to="." method="_on_home_button_pressed"]

@@ -16,6 +16,12 @@ var speed := PI
 
 var remaining_apples: int = 0
 
+# Динамическая скорость
+var base_speed := PI
+var speed_change_time := 0.0
+var speed_change_interval := 2.0
+var is_accelerating := true
+
 @onready var items_container := $ItemsContainer
 @onready var sprite := $Sprite2D
 @onready var knife_particles := $KnifeParticles2D
@@ -55,9 +61,19 @@ func _physics_process(delta: float):
 
 func _update_rotation(delta: float) -> void:
 	phase_time += delta
+	speed_change_time += delta
 
 	var level_idx := Globals.current_level
 	var last_level := Globals.LEVEL_COUNT - 1
+
+	# Динамическое изменение скорости для всех уровней кроме первого
+	if level_idx > 0 and speed_change_time >= speed_change_interval:
+		speed_change_time = 0.0
+		if is_accelerating:
+			speed = base_speed * Globals.rmg.randf_range(1.2, 1.8)
+		else:
+			speed = base_speed * Globals.rmg.randf_range(0.6, 0.9)
+		is_accelerating = not is_accelerating
 
 	if level_idx == last_level:
 		# босс: полностью непредсказуемое вращение

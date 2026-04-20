@@ -3,7 +3,8 @@ extends Node
 var location_to_scene = {
 	Events.LOCATIONS.GAME: preload("res://scens/game/game.tscn"),
 	Events.LOCATIONS.START: preload("res://scens/start_screen/start_screen.tscn"),
-	Events.LOCATIONS.SHOP: preload("res://scens/knife_shop/knife_shop.tscn")
+	Events.LOCATIONS.SHOP: preload("res://scens/knife_shop/knife_shop.tscn"),
+	Events.LOCATIONS.SETTINGS: preload("res://scens/settings/settings.tscn")
 }
 
 var rmg := RandomNumberGenerator.new()
@@ -18,6 +19,16 @@ var current_knife_index: int = 0
 
 var total_levels_passed: int = 0
 var max_level_record: int = 0
+
+# Combo system
+var current_combo: int = 0
+var combo_multiplier: float = 1.0
+const COMBO_MULTIPLIER_STEP: float = 0.1
+const MAX_COMBO_MULTIPLIER: float = 3.0
+
+# Settings
+var music_volume: float = 0.8
+var sfx_volume: float = 0.8
 
 var knife_prices: Array[int] = [
 	250,  500, 1000,
@@ -49,6 +60,24 @@ func add_apples(amount: int) -> void:
 		apples = 0
 	Events.apples_changed.emit(apples)
 	_save_progress()
+
+
+func increase_combo() -> void:
+	current_combo += 1
+	combo_multiplier = min(1.0 + (current_combo - 1) * COMBO_MULTIPLIER_STEP, MAX_COMBO_MULTIPLIER)
+	Events.combo_changed.emit(current_combo, combo_multiplier)
+
+
+func reset_combo() -> void:
+	if current_combo > 0:
+		Events.combo_broken.emit()
+	current_combo = 0
+	combo_multiplier = 1.0
+	Events.combo_changed.emit(current_combo, combo_multiplier)
+
+
+func get_combo_bonus_apples(base_apples: int) -> int:
+	return int(base_apples * combo_multiplier)
 
 
 func can_spend_apples(cost: int) -> bool:
@@ -149,6 +178,8 @@ func _save_progress() -> void:
 	config.set_value("progress", "unlocked_knives", unlocked_knives)
 	config.set_value("progress", "total_levels_passed", total_levels_passed)
 	config.set_value("progress", "max_level_record", max_level_record)
+	config.set_value("settings", "music_volume", music_volume)
+	config.set_value("settings", "sfx_volume", sfx_volume)
 	config.save("user://save.cfg")
 
 
@@ -167,8 +198,39 @@ func _load_progress() -> void:
 	total_levels_passed = int(config.get_value("progress", "total_levels_passed", 0))
 	max_level_record = int(config.get_value("progress", "max_level_record", 0))
 
+	music_volume = float(config.get_value("settings", "music_volume", 0.8))
+	sfx_volume = float(config.get_value("settings", "sfx_volume", 0.8))
+
 	if unlocked_knives.size() != KNIVES_COUNT:
 		_init_knives()
 	else:
 		Events.apples_changed.emit(apples)
 		Events.knives_changed.emit()
+
+	_apply_audio_settings()
+
+
+func _apply_audio_settings() -> void:
+	var music_bus_idx := AudioServer.get_bus_index("Music")
+	var sfx_bus_idx := AudioServer.get_bus_index("SFX")
+
+	if music_bus_idx >= 0:
+		AudioServer.set_bus_volume_db(music_bus_idx, linear_to_db(music_volume))
+	if sfx_bus_idx >= 0:
+		AudioServer.set_bus_volume_db(sfx_bus_idx, linear_to_db(sfx_volume))
+
+
+func set_music_volume(volume: float) -> void:
+	music_volume = clamp(volume, 0.0, 1.0)
+	var music_bus_idx := AudioServer.get_bus_index("Music")
+	if music_bus_idx >= 0:
+		AudioServer.set_bus_volume_db(music_bus_idx, linear_to_db(music_volume))
+	_save_progress()
+
+
+func set_sfx_volume(volume: float) -> void:
+	sfx_volume = clamp(volume, 0.0, 1.0)
+	var sfx_bus_idx := AudioServer.get_bus_index("SFX")
+	if sfx_bus_idx >= 0:
+		AudioServer.set_bus_volume_db(sfx_bus_idx, linear_to_db(sfx_volume))
+	_save_progress()

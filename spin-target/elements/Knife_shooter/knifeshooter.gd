@@ -34,7 +34,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	# бросок только если нож в руке (не на мишени)
 	if not is_instance_valid(knife) or knife.get_parent() != self:
 		return
-	if event is InputEventScreenTouch and event.is_pressed() and timer.time_left <= 0:
+
+	# Поддержка тач-экрана, мыши и геймпада
+	var should_throw := false
+	if event is InputEventScreenTouch and event.is_pressed():
+		should_throw = true
+	elif event.is_action_pressed("throw_knife"):
+		should_throw = true
+
+	if should_throw and timer.time_left <= 0:
 		knife.throw()
 		timer.start()
 

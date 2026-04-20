@@ -47,12 +47,18 @@ func handle_collision(collision: KinematicCollision2D):
 		_play_wood_hit_sound()
 		add_knife_to_target(collider)
 		change_state(State.IDLE)
+		# Увеличиваем комбо при успешном попадании
+		Globals.increase_combo()
 	elif collider is Knife:
 		_play_hit_sound()
 		throw_away(collision.get_normal())
+		# Сбрасываем комбо при столкновении с другим ножом
+		Globals.reset_combo()
 	else:
 		_play_wood_hit_sound()
 		throw_away(collision.get_normal())
+		# Сбрасываем комбо при промахе
+		Globals.reset_combo()
 
 
 func _play_hit_sound() -> void:
