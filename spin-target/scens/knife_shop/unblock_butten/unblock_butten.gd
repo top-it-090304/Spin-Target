@@ -1,6 +1,7 @@
 extends PanelContainer
 
 @onready var cost_label := $HBoxContainer/VBoxContainer2/Label
+var _is_gamepad_selected: bool = false
 
 
 func _ready() -> void:
@@ -10,7 +11,7 @@ func _ready() -> void:
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		_try_unlock_random_knife()
+		gamepad_activate()
 
 
 func _try_unlock_random_knife() -> void:
@@ -35,4 +36,18 @@ func _update_cost() -> void:
 		return
 	var cost := Globals.get_unlock_cost()
 	cost_label.text = str(cost)
+
+
+func gamepad_activate() -> void:
+	_try_unlock_random_knife()
+
+
+func set_gamepad_selected(selected: bool) -> void:
+	_is_gamepad_selected = selected
+	if _is_gamepad_selected:
+		modulate = Color(1.0, 0.95, 0.7, 1.0)
+		scale = Vector2(1.03, 1.03)
+	else:
+		modulate = Color(1, 1, 1, 1)
+		scale = Vector2.ONE
 
