@@ -3,6 +3,7 @@ extends PanelContainer
 @export var index: int = 0
 
 @onready var texture_rect := $MarginContainer/TextureRect
+var _is_gamepad_selected: bool = false
 
 
 func _ready() -> void:
@@ -32,10 +33,26 @@ func _on_knives_changed() -> void:
 			texture_rect.texture = locked_texture
 		modulate = Color(1, 1, 1, 1)
 
+	if _is_gamepad_selected:
+		modulate = modulate * Color(1.0, 0.92, 0.65, 1.0)
+		scale = Vector2(1.06, 1.06)
+	else:
+		scale = Vector2.ONE
+
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		if Globals.is_knife_unlocked(index):
-			Globals.current_knife_index = index
-			Globals._save_progress()
-			Events.knives_changed.emit()
+		gamepad_activate()
+
+
+func gamepad_activate() -> void:
+	if not Globals.is_knife_unlocked(index):
+		return
+	Globals.current_knife_index = index
+	Globals._save_progress()
+	Events.knives_changed.emit()
+
+
+func set_gamepad_selected(selected: bool) -> void:
+	_is_gamepad_selected = selected
+	_on_knives_changed()

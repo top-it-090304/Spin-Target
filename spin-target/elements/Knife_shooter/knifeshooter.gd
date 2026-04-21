@@ -9,6 +9,7 @@ const KNIVES_PER_LEVEL: int = 7
 
 var remaining_knives: int = 0
 var game_over: bool = false
+const GAMEPAD_THROW_ACTION := "gp_throw_knife"
 
 
 func get_throws_left() -> int:
@@ -36,13 +37,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	# Поддержка тач-экрана, мыши и геймпада
-	var should_throw := false
-	if event is InputEventScreenTouch and event.is_pressed():
-		should_throw = true
-	elif event.is_action_pressed("throw_knife"):
-		should_throw = true
+	var throw_from_touch := event is InputEventScreenTouch and event.is_pressed()
+	var throw_from_mouse := event.is_action_pressed("throw_knife")
+	var throw_from_gamepad := event.is_action_pressed(GAMEPAD_THROW_ACTION)
 
-	if should_throw and timer.time_left <= 0:
+	if (throw_from_touch or throw_from_mouse or throw_from_gamepad) and timer.time_left <= 0:
 		knife.throw()
 		timer.start()
 
