@@ -1,6 +1,12 @@
 extends CanvasLayer
 
-@onready var label_level := $MarginContainer/Control/PanelContainer/VBoxContainer/Label
+const BannerFontUtil := preload("res://elements/ui/banner_font_util.gd")
+
+const FONT_MIN := 14
+const FONT_MAX := 120
+
+@onready var defeat_panel := $MarginContainer/Control/PanelContainer as PanelContainer
+@onready var caption_label := $MarginContainer/Control/PanelContainer/CaptionLabel
 @onready var animation_player := $AnimationPlayer
 
 
@@ -8,20 +14,27 @@ func _ready() -> void:
 	hide()
 	if animation_player:
 		animation_player.stop()
-	_update_level_label()
+	if defeat_panel:
+		defeat_panel.resized.connect(_on_defeat_panel_resized)
+	if caption_label:
+		caption_label.text = "Поражение"
 
 
-func _update_level_label() -> void:
-	if label_level:
-		# stage = общее количество пройденных уровней + 1
-		label_level.text = str(Globals.total_levels_passed + 1)
+func _on_defeat_panel_resized() -> void:
+	_apply_defeat_font_fit()
+
+
+func _apply_defeat_font_fit() -> void:
+	if caption_label and defeat_panel:
+		BannerFontUtil.fit_label_to_panel(caption_label, defeat_panel, FONT_MIN, FONT_MAX)
 
 
 func show_overlay() -> void:
-	_update_level_label()
 	show()
 	if animation_player:
 		animation_player.play("show_overlay")
+	await get_tree().process_frame
+	_apply_defeat_font_fit()
 
 
 func _on_button_pressed() -> void:

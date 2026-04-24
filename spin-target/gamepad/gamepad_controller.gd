@@ -157,7 +157,9 @@ func _refresh_shop_interactive_nodes(scene: Node) -> void:
 		previous_selected = _interactive_nodes[_selected_index]
 
 	_shop_grid_nodes.clear()
-	_shop_home_button = scene.get_node_or_null("HUD/MarginContainer/VBoxContainer/HBoxContainer/HomeButton")
+	_shop_home_button = scene.get_node_or_null("HUD/MarginContainer/VBoxContainer/TopBar/HomeButton")
+	if _shop_home_button == null:
+		_shop_home_button = scene.get_node_or_null("HUD/MarginContainer/VBoxContainer/HBoxContainer/HomeButton")
 	_shop_unblock_button = scene.get_node_or_null("MarginContainer/VBoxContainer/UnblockButten")
 	var grid := scene.get_node_or_null("MarginContainer/VBoxContainer/GridContainer")
 	if grid != null:

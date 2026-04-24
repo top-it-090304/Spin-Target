@@ -1,8 +1,8 @@
 extends CanvasLayer
 
-@onready var apples_label := $MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/Label
+@onready var apples_label := $MarginContainer/VBoxContainer/TopBar/HBoxContainer2/Label
 @onready var knives_row := $MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer
-@onready var level_icons_row := $MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer
+@onready var level_icons_row := $MarginContainer/VBoxContainer/TopBar/LevelIconsSpacer/CenterContainer/LevelIconsRow
 
 
 func _ready() -> void:
@@ -28,7 +28,7 @@ func _on_home_button_pressed() -> void:
 
 
 func _hide_home_on_start() -> void:
-	var home_button := $MarginContainer/VBoxContainer/HBoxContainer/HomeButton
+	var home_button := $MarginContainer/VBoxContainer/TopBar/HomeButton
 	if home_button and get_tree().current_scene and get_tree().current_scene.name == "StartScreen":
 		home_button.hide()
 

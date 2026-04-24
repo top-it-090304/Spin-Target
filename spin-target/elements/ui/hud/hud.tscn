@@ -38,63 +38,71 @@ theme_override_constants/margin_bottom = 35
 layout_mode = 2
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="TopBar" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+size_flags_vertical = 0
 
-[node name="HomeButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="HomeButton" type="Button" parent="MarginContainer/VBoxContainer/TopBar"]
 layout_mode = 2
 text = "<HOME"
 flat = true
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-visible = false
+[node name="LevelIconsSpacer" type="Control" parent="MarginContainer/VBoxContainer/TopBar"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "100"
+size_flags_vertical = 3
+mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer/TopBar/LevelIconsSpacer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LevelIconsRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TopBar/LevelIconsSpacer/CenterContainer"]
 visible = false
 layout_mode = 2
-size_flags_horizontal = 3
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/TopBar/LevelIconsSpacer/CenterContainer/LevelIconsRow"]
 layout_mode = 2
 texture = ExtResource("2_udgck")
 stretch_mode = 5
 
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBoxContainer/TopBar/LevelIconsSpacer/CenterContainer/LevelIconsRow"]
 layout_mode = 2
 texture = ExtResource("2_udgck")
 stretch_mode = 5
 
-[node name="TextureRect3" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/VBoxContainer/TopBar/LevelIconsSpacer/CenterContainer/LevelIconsRow"]
 layout_mode = 2
 texture = ExtResource("2_udgck")
 stretch_mode = 5
 
-[node name="TextureRect4" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="TextureRect4" type="TextureRect" parent="MarginContainer/VBoxContainer/TopBar/LevelIconsSpacer/CenterContainer/LevelIconsRow"]
 layout_mode = 2
 texture = ExtResource("2_udgck")
 stretch_mode = 5
 
-[node name="TextureRect5" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="TextureRect5" type="TextureRect" parent="MarginContainer/VBoxContainer/TopBar/LevelIconsSpacer/CenterContainer/LevelIconsRow"]
 layout_mode = 2
 texture = ExtResource("3_2xxep")
 stretch_mode = 5
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TopBar"]
 layout_mode = 2
-size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_constants/separation = 10
 alignment = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TopBar/HBoxContainer2"]
 layout_mode = 2
 text = "10"
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/TopBar/HBoxContainer2"]
 custom_minimum_size = Vector2(0, 95)
 layout_mode = 2
 texture = ExtResource("4_n5s42")
@@ -144,4 +152,4 @@ texture = ExtResource("5_2xxep")
 layout_mode = 2
 texture = ExtResource("5_2xxep")
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/HomeButton" to="." method="_on_home_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/TopBar/HomeButton" to="." method="_on_home_button_pressed"]

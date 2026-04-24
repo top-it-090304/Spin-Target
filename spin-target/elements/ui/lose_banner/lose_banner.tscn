@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://c5w6nk4bkc8we"]
+[gd_scene load_steps=5 format=3 uid="uid://c5w6nk4bkc8we"]
 
 [ext_resource type="Script" uid="uid://ddv3ckx86p1fj" path="res://elements/ui/lose_banner/lose_banner.gd" id="1_lb"]
 [ext_resource type="Texture2D" uid="uid://croxd6vnu7m5d" path="res://assets/banner.png" id="2_banner"]
+[ext_resource type="FontFile" path="res://assets/fonts/RussoOne-Regular.ttf" id="3_font"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_banner"]
-content_margin_top = 20.0
+content_margin_left = 28.0
+content_margin_top = 24.0
+content_margin_right = 28.0
+content_margin_bottom = 24.0
 texture = ExtResource("2_banner")
 
 [node name="LoseBanner" type="Control" groups=["lose_banner"]]
@@ -31,6 +35,10 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_banner")
 
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 32
 text = "NO KNIVES LEFT"
 horizontal_alignment = 1
 vertical_alignment = 1
