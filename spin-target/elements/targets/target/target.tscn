@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://c7grww7jg1mrn"]
+[gd_scene load_steps=10 format=3 uid="uid://c7grww7jg1mrn"]
 
 [ext_resource type="Texture2D" uid="uid://cy61tdinvfpay" path="res://assets/target1.png" id="1_4daai"]
 [ext_resource type="Script" uid="uid://b4qra0x2lyoro" path="res://elements/targets/target/target.gd" id="1_ueniy"]
+[ext_resource type="Script" path="res://elements/targets/target/apple_reward_floater.gd" id="2_reward"]
 [ext_resource type="Texture2D" uid="uid://cso6wdxm7tlg8" path="res://assets/knife1.png" id="3_tpwst"]
 [ext_resource type="Texture2D" uid="uid://c3pqjrpygg8f0" path="res://assets/target1_1.png" id="4_ropi6"]
 [ext_resource type="Texture2D" uid="uid://dpv4pch7wmw7d" path="res://assets/target1_2.png" id="5_iv5lu"]
@@ -18,6 +19,10 @@ script = ExtResource("1_ueniy")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_4daai")
+
+[node name="AppleRewardFloater" type="Node2D" parent="."]
+z_index = 48
+script = ExtResource("2_reward")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ueniy")

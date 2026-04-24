@@ -18,6 +18,7 @@ var remaining_apples: int = 0
 
 @onready var items_container := $ItemsContainer
 @onready var sprite := $Sprite2D
+@onready var reward_floater: Node2D = $AppleRewardFloater
 @onready var knife_particles := $KnifeParticles2D
 @onready var target_particles := [
 	$TargetParticles2D,
@@ -28,6 +29,8 @@ var remaining_apples: int = 0
 func explode():
 	if not is_inside_tree():
 		return
+	if reward_floater and reward_floater.has_method("stop_and_clear"):
+		reward_floater.stop_and_clear()
 	sprite.hide()
 	items_container.hide()
 	knife_particles.rotation = -rotation
@@ -126,6 +129,11 @@ func get_free_random_rotation(occupied_rotations: Array, generation_attemps=0):
 			return get_free_random_rotation(occupied_rotations, generation_attemps + 1)
 	
 	return random_rotation
+
+
+func show_apple_reward_gained(amount: int) -> void:
+	if reward_floater and reward_floater.has_method("show_gain"):
+		reward_floater.show_gain(amount)
 
 
 func on_apple_hit() -> void:

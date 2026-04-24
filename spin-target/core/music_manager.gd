@@ -1,5 +1,8 @@
 extends Node
 
+const SETTINGS_PATH := "user://settings.cfg"
+const DEFAULT_MUSIC_LINEAR := 0.75
+
 const CATEGORY_NORMAL := "normal"
 const CATEGORY_BOSS := "boss"
 
@@ -27,10 +30,23 @@ var _player: AudioStreamPlayer
 var _current_category: StringName = ""
 var _last_normal_index: int = -1
 var _last_boss_index: int = -1
+var music_volume_linear: float = DEFAULT_MUSIC_LINEAR
 
 
 func _ready() -> void:
+	_load_music_volume()
 	_init_player()
+	_apply_music_volume()
+
+
+func get_music_volume_percent() -> int:
+	return int(round(clampf(music_volume_linear, 0.0, 1.0) * 100.0))
+
+
+func set_music_volume_linear(value: float) -> void:
+	music_volume_linear = clampf(value, 0.0, 1.0)
+	_apply_music_volume()
+	_save_music_volume()
 
 
 func _init_player() -> void:
@@ -39,6 +55,34 @@ func _init_player() -> void:
 	_player = AudioStreamPlayer.new()
 	_player.name = "MusicPlayer"
 	add_child(_player)
+	_apply_music_volume()
+
+
+func _apply_music_volume() -> void:
+	if not _player:
+		return
+	if music_volume_linear <= 0.0001:
+		_player.volume_db = -80.0
+	else:
+		_player.volume_db = linear_to_db(music_volume_linear)
+
+
+func _load_music_volume() -> void:
+	var config := ConfigFile.new()
+	if config.load(SETTINGS_PATH) != OK:
+		return
+	music_volume_linear = clampf(
+		float(config.get_value("audio", "music_volume", DEFAULT_MUSIC_LINEAR)),
+		0.0,
+		1.0
+	)
+
+
+func _save_music_volume() -> void:
+	var config := ConfigFile.new()
+	config.load(SETTINGS_PATH)
+	config.set_value("audio", "music_volume", music_volume_linear)
+	config.save(SETTINGS_PATH)
 
 
 func set_music_for_level(level_index: int) -> void:
@@ -80,6 +124,7 @@ func _play_random_track(tracks: Array[String], is_boss: bool) -> void:
 		stream.loop = true
 
 	_player.stream = stream
+	_apply_music_volume()
 	_player.play()
 
 	if is_boss:

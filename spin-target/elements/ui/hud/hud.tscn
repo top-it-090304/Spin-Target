@@ -45,7 +45,7 @@ size_flags_vertical = 0
 
 [node name="HomeButton" type="Button" parent="MarginContainer/VBoxContainer/TopBar"]
 layout_mode = 2
-text = "<HOME"
+text = "ВЫХОД"
 flat = true
 
 [node name="LevelIconsSpacer" type="Control" parent="MarginContainer/VBoxContainer/TopBar"]

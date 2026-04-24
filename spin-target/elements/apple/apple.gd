@@ -14,12 +14,16 @@ func _on_area_2d_body_entered(_body: Node2D) -> void:
 	if not is_hitted:
 		is_hitted = true
 		sprite.hide()
+		var reward_amount := 1
 		if Globals.current_level == Globals.LEVEL_COUNT - 1:
 			var boss_index := int(Globals.total_levels_passed / Globals.LEVEL_COUNT) + 1
-			var reward_per_apple := boss_index * 10
-			Globals.add_apples(reward_per_apple)
+			reward_amount = boss_index * 10
+
+		var target: Target = _find_target()
+		if target != null:
+			target.show_apple_reward_gained(reward_amount)
 		else:
-			Globals.add_apples(1)
+			Globals.add_apples(reward_amount)
 
 		var tween = create_tween()
 		for particle in particles:
@@ -28,7 +32,6 @@ func _on_area_2d_body_entered(_body: Node2D) -> void:
 
 		tween.play()
 
-		var target: Target = _find_target()
 		if target != null:
 			target.on_apple_hit()
 

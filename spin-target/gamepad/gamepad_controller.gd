@@ -13,6 +13,7 @@ var _selected_index: int = -1
 var _last_scene: Node = null
 var _base_button_original_modulate: Dictionary = {}
 var _base_button_original_scale: Dictionary = {}
+var _range_original_modulate: Dictionary = {}
 var _shop_grid_nodes: Array[Control] = []
 var _shop_home_button: Control = null
 var _shop_unblock_button: Control = null
@@ -63,6 +64,17 @@ func _handle_navigation() -> void:
 		if handled:
 			return
 
+	if _selected_index >= 0 and _selected_index < _interactive_nodes.size():
+		var cur_nav := _interactive_nodes[_selected_index]
+		if cur_nav is HSlider:
+			var slider_nav := cur_nav as HSlider
+			if direction == Vector2.LEFT:
+				slider_nav.value = maxf(slider_nav.min_value, slider_nav.value - slider_nav.step)
+				return
+			if direction == Vector2.RIGHT:
+				slider_nav.value = minf(slider_nav.max_value, slider_nav.value + slider_nav.step)
+				return
+
 	var next_index := _find_next_index_in_direction(direction)
 	if next_index == -1:
 		return
@@ -83,6 +95,9 @@ func _handle_select_action() -> void:
 		selected.emit_signal("pressed")
 		return
 
+	if selected is Range:
+		return
+
 	if selected.has_method("gamepad_activate"):
 		selected.call("gamepad_activate")
 
@@ -93,6 +108,9 @@ func _handle_back_action() -> void:
 
 	var scene := get_tree().current_scene
 	if scene == null:
+		return
+
+	if scene.has_method("gamepad_consume_back") and bool(scene.call("gamepad_consume_back")):
 		return
 
 	if scene.name == "KnifeShop":
@@ -113,6 +131,37 @@ func _refresh_interactive_nodes() -> void:
 	var previous_selected: Control = null
 	if _selected_index >= 0 and _selected_index < _interactive_nodes.size():
 		previous_selected = _interactive_nodes[_selected_index]
+
+	if scene.name == "StartScreen" and scene.has_method("get_gamepad_overlay_chain"):
+		var overlay_chain: Array = scene.get_gamepad_overlay_chain()
+		if not overlay_chain.is_empty():
+			var overlay_collected: Array[Control] = []
+			for item in overlay_chain:
+				var oc := item as Control
+				if oc == null:
+					continue
+				if not _is_interactive(oc):
+					continue
+				overlay_collected.append(oc)
+
+			var overlay_changed := not _same_nodes(_interactive_nodes, overlay_collected)
+			if overlay_changed:
+				_clear_custom_selection_visuals(_interactive_nodes)
+			_interactive_nodes = overlay_collected
+
+			if _interactive_nodes.is_empty():
+				_selected_index = -1
+				return
+
+			if previous_selected != null:
+				var preserved_o := _interactive_nodes.find(previous_selected)
+				if preserved_o != -1:
+					_set_selected_index(preserved_o)
+					return
+
+			if _selected_index == -1 or overlay_changed:
+				_set_selected_index(0)
+			return
 
 	var collected: Array[Control] = []
 	var controls: Array = scene.find_children("*", "Control", true, false)
@@ -208,6 +257,8 @@ func _clear_custom_selection_visuals(nodes: Array[Control]) -> void:
 			node.call("set_gamepad_selected", false)
 		elif node is BaseButton:
 			_apply_base_button_selection(node, false)
+		elif node is Range:
+			_apply_range_selection(node as Range, false)
 
 
 func _set_selected_index(value: int) -> void:
@@ -235,6 +286,9 @@ func _apply_selection_visuals() -> void:
 			continue
 		if node is BaseButton:
 			_apply_base_button_selection(node, selected)
+			continue
+		if node is Range:
+			_apply_range_selection(node as Range, selected)
 
 
 func _find_next_index_in_direction(direction: Vector2) -> int:
@@ -296,6 +350,8 @@ func _is_interactive(control: Control) -> bool:
 		return false
 	if control is BaseButton:
 		return not control.disabled
+	if control is Range:
+		return (control as Range).editable
 	return control.has_method("gamepad_activate")
 
 
@@ -418,6 +474,19 @@ func _bind_axis_action(action_name: String, axis: JoyAxis, axis_value: float) ->
 	motion_event.axis = axis
 	motion_event.axis_value = axis_value
 	InputMap.action_add_event(action_name, motion_event)
+
+
+func _apply_range_selection(slider: Range, selected: bool) -> void:
+	var key := slider.get_instance_id()
+	if not _range_original_modulate.has(key):
+		_range_original_modulate[key] = slider.modulate
+	if selected:
+		slider.modulate = Color(1.0, 0.94, 0.7, 1.0)
+		if slider.focus_mode == Control.FOCUS_NONE:
+			slider.focus_mode = Control.FOCUS_ALL
+		slider.grab_focus()
+	else:
+		slider.modulate = _range_original_modulate[key]
 
 
 func _apply_base_button_selection(button: BaseButton, selected: bool) -> void:

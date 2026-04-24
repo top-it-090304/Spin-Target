@@ -8,7 +8,7 @@ extends CanvasLayer
 func _ready() -> void:
 	Events.apples_changed.connect(_on_apples_changed)
 	_on_apples_changed(Globals.apples)
-	_hide_home_on_start()
+	_configure_home_button()
 	_update_knives_visual()
 	_update_level_icons()
 
@@ -24,13 +24,21 @@ func _on_apples_changed(apples: int) -> void:
 
 
 func _on_home_button_pressed() -> void:
+	var scene := get_tree().current_scene
+	if scene and scene.name == "StartScreen":
+		if scene.has_method("open_exit_confirmation"):
+			scene.open_exit_confirmation()
+		return
 	Events.location_changed.emit(Events.LOCATIONS.START)
 
 
-func _hide_home_on_start() -> void:
-	var home_button := $MarginContainer/VBoxContainer/TopBar/HomeButton
-	if home_button and get_tree().current_scene and get_tree().current_scene.name == "StartScreen":
-		home_button.hide()
+func _configure_home_button() -> void:
+	var home_button: Button = $MarginContainer/VBoxContainer/TopBar/HomeButton
+	if not home_button:
+		return
+	var scene := get_tree().current_scene
+	home_button.text = "ВЫХОД"
+	home_button.show()
 
 
 func _update_knives_visual() -> void:

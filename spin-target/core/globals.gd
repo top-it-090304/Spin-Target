@@ -103,6 +103,17 @@ func reset_to_first_level() -> void:
 	_save_progress()
 
 
+func reset_full_progress() -> void:
+	apples = 0
+	current_level = 0
+	current_knife_index = 0
+	total_levels_passed = 0
+	max_level_record = 0
+	_init_knives()
+	_save_progress()
+	Events.apples_changed.emit(apples)
+
+
 func go_to_next_level() -> void:
 	total_levels_passed += 1
 

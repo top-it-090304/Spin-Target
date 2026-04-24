@@ -1,10 +1,45 @@
-[gd_scene load_steps=6 format=3 uid="uid://oo3el222y6iv"]
+[gd_scene load_steps=7 format=3 uid="uid://oo3el222y6iv"]
 
 [ext_resource type="PackedScene" uid="uid://c077xke7ae2bo" path="res://elements/ui/hud/hud.tscn" id="1_eynv1"]
 [ext_resource type="Script" uid="uid://dopcunx4t8oe4" path="res://scens/start_screen/start_screen.gd" id="1_ojk3x"]
 [ext_resource type="Texture2D" uid="uid://cso6wdxm7tlg8" path="res://assets/knife1.png" id="2_kx7h7"]
 [ext_resource type="StyleBox" uid="uid://cbn128gejjir" path="res://styles/Butten.stylebox" id="3_6yeio"]
 [ext_resource type="Texture2D" uid="uid://dl8yjyw3eu6tm" path="res://assets/gift-ico.png" id="4_6yeio"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.11, 0.13, 0.17, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.28, 0.34, 0.42, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+content_margin_left = 0
+content_margin_top = 0
+content_margin_right = 0
+content_margin_bottom = 0
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 12
+shadow_offset = Vector2(0, 6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_danger_btn"]
+bg_color = Color(0.4, 0.14, 0.17, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.62, 0.22, 0.26, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+content_margin_left = 16
+content_margin_top = 12
+content_margin_right = 16
+content_margin_bottom = 12
 
 [node name="StartScreen" type="Control"]
 layout_mode = 3
@@ -24,19 +59,23 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 35
-theme_override_constants/margin_top = 150
-theme_override_constants/margin_right = 35
-theme_override_constants/margin_bottom = 50
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 72
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 36
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 2.0
-theme_override_font_sizes/font_size = 150
+size_flags_stretch_ratio = 1.15
+theme_override_colors/font_color = Color(0.98, 0.99, 1, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.07, 0.12, 0.92)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 118
 text = "SPIN TARGET"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -55,13 +94,14 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer2"]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(400, 68)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_hover_color = Color(0, 0.368627, 0, 1)
 theme_override_colors/font_color = Color(0, 0.278431, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0.278431, 0, 1)
 theme_override_colors/font_pressed_color = Color(0.470588, 0, 0.266667, 1)
+theme_override_font_sizes/font_size = 32
 theme_override_styles/focus = ExtResource("3_6yeio")
 theme_override_styles/disabled = ExtResource("3_6yeio")
 theme_override_styles/hover_pressed = ExtResource("3_6yeio")
@@ -69,6 +109,27 @@ theme_override_styles/hover = ExtResource("3_6yeio")
 theme_override_styles/pressed = ExtResource("3_6yeio")
 theme_override_styles/normal = ExtResource("3_6yeio")
 text = "PLAY"
+
+[node name="CenterContainerSettings" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SettingsButton" type="Button" parent="MarginContainer/VBoxContainer/CenterContainerSettings"]
+custom_minimum_size = Vector2(400, 68)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_hover_color = Color(0, 0.368627, 0, 1)
+theme_override_colors/font_color = Color(0, 0.278431, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0.278431, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.470588, 0, 0.266667, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = ExtResource("3_6yeio")
+theme_override_styles/disabled = ExtResource("3_6yeio")
+theme_override_styles/hover_pressed = ExtResource("3_6yeio")
+theme_override_styles/hover = ExtResource("3_6yeio")
+theme_override_styles/pressed = ExtResource("3_6yeio")
+theme_override_styles/normal = ExtResource("3_6yeio")
+text = "Настройки"
 
 [node name="CenterContainer3" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -79,5 +140,368 @@ layout_mode = 2
 texture_normal = ExtResource("4_6yeio")
 stretch_mode = 5
 
+[node name="SettingsOverlay" type="Control" parent="."]
+visible = false
+z_index = 20
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Dimmer" type="ColorRect" parent="SettingsOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.04, 0.06, 0.09, 0.88)
+
+[node name="CenterRoot" type="CenterContainer" parent="SettingsOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PanelWrap" type="MarginContainer" parent="SettingsOverlay/CenterRoot"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 40
+
+[node name="SettingsPanel" type="PanelContainer" parent="SettingsOverlay/CenterRoot/PanelWrap"]
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="InnerMargin" type="MarginContainer" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 26
+
+[node name="SettingsVBox" type="VBoxContainer" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="TitleLabel" type="Label" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.96, 1, 1)
+theme_override_font_sizes/font_size = 34
+text = "Настройки"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.6, 0.68, 1)
+theme_override_font_sizes/font_size = 16
+text = "Звук и данные игры"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MusicLabel" type="Label" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.86, 0.92, 1)
+theme_override_font_sizes/font_size = 20
+text = "Громкость музыки"
+
+[node name="MusicRow" type="HBoxContainer" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="MusicSlider" type="HSlider" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox/MusicRow"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 2
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+value = 75.0
+
+[node name="MusicPercentLabel" type="Label" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox/MusicRow"]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.72, 0.82, 1)
+theme_override_font_sizes/font_size = 20
+text = "75%"
+horizontal_alignment = 2
+
+[node name="HSeparator2" type="HSeparator" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
+layout_mode = 2
+
+[node name="ProgressSectionLabel" type="Label" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.86, 0.92, 1)
+theme_override_font_sizes/font_size = 20
+text = "Прогресс"
+
+[node name="ResetHint" type="Label" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.55, 0.62, 1)
+theme_override_font_sizes/font_size = 15
+text = "Сброс удалит яблоки, этапы, разблокированные ножи и рекорды. Действие необратимо."
+autowrap_mode = 3
+
+[node name="ResetProgressButton" type="Button" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.82, 0.82, 1)
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.9, 1)
+theme_override_colors/font_pressed_color = Color(0.95, 0.7, 0.7, 1)
+theme_override_colors/font_focus_color = Color(1, 0.82, 0.82, 1)
+theme_override_font_sizes/font_size = 18
+flat = true
+text = "Сбросить прогресс"
+
+[node name="CloseButton" type="Button" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(0, 0.368627, 0, 1)
+theme_override_colors/font_color = Color(0, 0.278431, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0.278431, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.470588, 0, 0.266667, 1)
+theme_override_styles/focus = ExtResource("3_6yeio")
+theme_override_styles/disabled = ExtResource("3_6yeio")
+theme_override_styles/hover_pressed = ExtResource("3_6yeio")
+theme_override_styles/hover = ExtResource("3_6yeio")
+theme_override_styles/pressed = ExtResource("3_6yeio")
+theme_override_styles/normal = ExtResource("3_6yeio")
+theme_override_font_sizes/font_size = 20
+text = "Закрыть"
+
+[node name="ResetModalLayer" type="Control" parent="SettingsOverlay"]
+visible = false
+z_index = 10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="ResetDimmer" type="ColorRect" parent="SettingsOverlay/ResetModalLayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.02, 0.03, 0.05, 0.72)
+
+[node name="ResetCenter" type="CenterContainer" parent="SettingsOverlay/ResetModalLayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ResetPanelWrap" type="MarginContainer" parent="SettingsOverlay/ResetModalLayer/ResetCenter"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 48
+
+[node name="ResetPanel" type="PanelContainer" parent="SettingsOverlay/ResetModalLayer/ResetCenter/ResetPanelWrap"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="ResetInner" type="MarginContainer" parent="SettingsOverlay/ResetModalLayer/ResetCenter/ResetPanelWrap/ResetPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 24
+
+[node name="ResetVBox" type="VBoxContainer" parent="SettingsOverlay/ResetModalLayer/ResetCenter/ResetPanelWrap/ResetPanel/ResetInner"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="ResetModalTitle" type="Label" parent="SettingsOverlay/ResetModalLayer/ResetCenter/ResetPanelWrap/ResetPanel/ResetInner/ResetVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "Сброс прогресса"
+horizontal_alignment = 1
+
+[node name="ResetModalBody" type="Label" parent="SettingsOverlay/ResetModalLayer/ResetCenter/ResetPanelWrap/ResetPanel/ResetInner/ResetVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.58, 0.64, 0.72, 1)
+theme_override_font_sizes/font_size = 17
+text = "Будут удалены яблоки, этапы, разблокированные ножи и рекорды. Это действие нельзя отменить."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ResetModalSep" type="HSeparator" parent="SettingsOverlay/ResetModalLayer/ResetCenter/ResetPanelWrap/ResetPanel/ResetInner/ResetVBox"]
+layout_mode = 2
+
+[node name="ResetCancelButton" type="Button" parent="SettingsOverlay/ResetModalLayer/ResetCenter/ResetPanelWrap/ResetPanel/ResetInner/ResetVBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(0, 0.368627, 0, 1)
+theme_override_colors/font_color = Color(0, 0.278431, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0.278431, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.470588, 0, 0.266667, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = ExtResource("3_6yeio")
+theme_override_styles/disabled = ExtResource("3_6yeio")
+theme_override_styles/hover_pressed = ExtResource("3_6yeio")
+theme_override_styles/hover = ExtResource("3_6yeio")
+theme_override_styles/pressed = ExtResource("3_6yeio")
+theme_override_styles/normal = ExtResource("3_6yeio")
+text = "Отмена"
+
+[node name="ResetConfirmButton" type="Button" parent="SettingsOverlay/ResetModalLayer/ResetCenter/ResetPanelWrap/ResetPanel/ResetInner/ResetVBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.93, 0.93, 1)
+theme_override_colors/font_hover_color = Color(1, 0.98, 0.98, 1)
+theme_override_colors/font_pressed_color = Color(0.92, 0.85, 0.85, 1)
+theme_override_colors/font_focus_color = Color(1, 0.93, 0.93, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxFlat_danger_btn")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_danger_btn")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_danger_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_danger_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_danger_btn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_danger_btn")
+text = "Сбросить"
+
+[node name="ExitConfirmLayer" type="Control" parent="."]
+visible = false
+z_index = 45
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="ExitDimmer" type="ColorRect" parent="ExitConfirmLayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.03, 0.05, 0.08, 0.9)
+
+[node name="ExitCenter" type="CenterContainer" parent="ExitConfirmLayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ExitPanelWrap" type="MarginContainer" parent="ExitConfirmLayer/ExitCenter"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 40
+
+[node name="ExitPanel" type="PanelContainer" parent="ExitConfirmLayer/ExitCenter/ExitPanelWrap"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="ExitInner" type="MarginContainer" parent="ExitConfirmLayer/ExitCenter/ExitPanelWrap/ExitPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 24
+
+[node name="ExitVBox" type="VBoxContainer" parent="ExitConfirmLayer/ExitCenter/ExitPanelWrap/ExitPanel/ExitInner"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="ExitTitle" type="Label" parent="ExitConfirmLayer/ExitCenter/ExitPanelWrap/ExitPanel/ExitInner/ExitVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 30
+text = "Выйти из игры?"
+horizontal_alignment = 1
+
+[node name="ExitBody" type="Label" parent="ExitConfirmLayer/ExitCenter/ExitPanelWrap/ExitPanel/ExitInner/ExitVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.58, 0.64, 0.72, 1)
+theme_override_font_sizes/font_size = 18
+text = "Текущий сеанс завершится. Прогресс сохранён автоматически."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ExitSep" type="HSeparator" parent="ExitConfirmLayer/ExitCenter/ExitPanelWrap/ExitPanel/ExitInner/ExitVBox"]
+layout_mode = 2
+
+[node name="ExitStayButton" type="Button" parent="ExitConfirmLayer/ExitCenter/ExitPanelWrap/ExitPanel/ExitInner/ExitVBox"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(0, 0.368627, 0, 1)
+theme_override_colors/font_color = Color(0, 0.278431, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0.278431, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.470588, 0, 0.266667, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/focus = ExtResource("3_6yeio")
+theme_override_styles/disabled = ExtResource("3_6yeio")
+theme_override_styles/hover_pressed = ExtResource("3_6yeio")
+theme_override_styles/hover = ExtResource("3_6yeio")
+theme_override_styles/pressed = ExtResource("3_6yeio")
+theme_override_styles/normal = ExtResource("3_6yeio")
+text = "Остаться"
+
+[node name="ExitQuitButton" type="Button" parent="ExitConfirmLayer/ExitCenter/ExitPanelWrap/ExitPanel/ExitInner/ExitVBox"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.93, 0.93, 1)
+theme_override_colors/font_hover_color = Color(1, 0.98, 0.98, 1)
+theme_override_colors/font_pressed_color = Color(0.92, 0.85, 0.85, 1)
+theme_override_colors/font_focus_color = Color(1, 0.93, 0.93, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/focus = SubResource("StyleBoxFlat_danger_btn")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_danger_btn")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_danger_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_danger_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_danger_btn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_danger_btn")
+text = "Выйти"
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainer2/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainerSettings/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/CenterContainer3/TextureButton" to="." method="_on_texture_button_pressed"]
+[connection signal="gui_input" from="SettingsOverlay/Dimmer" to="." method="_on_settings_dimmer_gui_input"]
+[connection signal="value_changed" from="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox/MusicRow/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="pressed" from="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox/ResetProgressButton" to="." method="_on_reset_progress_pressed"]
+[connection signal="pressed" from="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox/CloseButton" to="." method="_on_settings_close_pressed"]
+[connection signal="gui_input" from="SettingsOverlay/ResetModalLayer/ResetDimmer" to="." method="_on_reset_modal_dimmer_gui_input"]
+[connection signal="pressed" from="SettingsOverlay/ResetModalLayer/ResetCenter/ResetPanelWrap/ResetPanel/ResetInner/ResetVBox/ResetCancelButton" to="." method="_on_reset_modal_cancel_pressed"]
+[connection signal="pressed" from="SettingsOverlay/ResetModalLayer/ResetCenter/ResetPanelWrap/ResetPanel/ResetInner/ResetVBox/ResetConfirmButton" to="." method="_on_reset_modal_confirm_pressed"]
+[connection signal="gui_input" from="ExitConfirmLayer/ExitDimmer" to="." method="_on_exit_modal_dimmer_gui_input"]
+[connection signal="pressed" from="ExitConfirmLayer/ExitCenter/ExitPanelWrap/ExitPanel/ExitInner/ExitVBox/ExitStayButton" to="." method="_on_exit_stay_pressed"]
+[connection signal="pressed" from="ExitConfirmLayer/ExitCenter/ExitPanelWrap/ExitPanel/ExitInner/ExitVBox/ExitQuitButton" to="." method="_on_exit_quit_pressed"]
