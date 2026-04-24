@@ -25,7 +25,9 @@ var knife_prices: Array[int] = [
 	3500, 4000, 4500
 ]
 
-func _ready():
+func _ready() -> void:
+	if DisplayServer.get_name() != "headless":
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	rmg.randomize()
 	_load_progress()
 	Events.location_changed.connect(handle_location_change)
