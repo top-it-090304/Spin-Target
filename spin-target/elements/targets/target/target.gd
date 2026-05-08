@@ -10,6 +10,7 @@ const APPLE_NUMBER_ON_TARGET := 6
 const KNIFE_NUMBER_ON_TARGET := 3
 const MULTI_APPLE_HIT_WINDOW_SECONDS := 0.12
 const SHARP_HIT_REWARD_MULTIPLIER := 5
+const HIT_FLASH_SIZE := 56
 
 var knife_scene : PackedScene = load("res://elements/knife/knife.tscn")
 var apple_scene : PackedScene = load("res://elements/apple/apple.tscn")
@@ -21,6 +22,7 @@ var level_completed: bool = false
 var last_apple_hit_body_id: int = 0
 var last_apple_hit_time: float = -100.0
 var apple_hit_chain_count: int = 0
+var hit_flash_texture: Texture2D
 
 # Динамическая скорость
 var base_speed := PI
@@ -161,6 +163,42 @@ func get_free_random_rotation(occupied_rotations: Array, generation_attemps=0):
 func show_apple_reward_gained(amount: int) -> void:
 	if reward_floater and reward_floater.has_method("show_gain"):
 		reward_floater.show_gain(amount)
+
+
+func play_hit_feedback(global_hit_position: Vector2) -> void:
+	var scene := get_tree().current_scene
+	if scene and scene.has_method("shake_camera"):
+		scene.shake_camera(7.0, 0.12)
+	_show_hit_flash(global_hit_position)
+
+
+func _show_hit_flash(global_hit_position: Vector2) -> void:
+	if not hit_flash_texture:
+		hit_flash_texture = _create_hit_flash_texture()
+	var flash := Sprite2D.new()
+	flash.texture = hit_flash_texture
+	flash.position = to_local(global_hit_position)
+	flash.z_index = 40
+	flash.modulate = Color(1.0, 0.9, 0.45, 0.85)
+	flash.scale = Vector2(0.45, 0.45)
+	add_child(flash)
+	var tween := create_tween()
+	tween.tween_property(flash, "scale", Vector2(1.15, 1.15), 0.12)
+	tween.parallel().tween_property(flash, "modulate:a", 0.0, 0.12)
+	tween.tween_callback(flash.queue_free)
+
+
+func _create_hit_flash_texture() -> Texture2D:
+	var image := Image.create(HIT_FLASH_SIZE, HIT_FLASH_SIZE, false, Image.FORMAT_RGBA8)
+	var center := Vector2(HIT_FLASH_SIZE, HIT_FLASH_SIZE) * 0.5
+	var radius := float(HIT_FLASH_SIZE) * 0.5
+	for y in range(HIT_FLASH_SIZE):
+		for x in range(HIT_FLASH_SIZE):
+			var distance: float = Vector2(x, y).distance_to(center) / radius
+			var alpha: float = clampf(1.0 - distance, 0.0, 1.0)
+			alpha = alpha * alpha
+			image.set_pixel(x, y, Color(1.0, 0.82, 0.22, alpha))
+	return ImageTexture.create_from_image(image)
 
 
 func register_apple_hit(base_reward: int, body: Node2D) -> void:

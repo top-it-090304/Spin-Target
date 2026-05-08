@@ -45,6 +45,7 @@ func handle_collision(collision: KinematicCollision2D):
 	var collider := collision.get_collider()
 	if collider is Target:
 		_play_wood_hit_sound()
+		collider.play_hit_feedback(collision.get_position())
 		add_knife_to_target(collider)
 		change_state(State.IDLE)
 		# Увеличиваем комбо при успешном попадании

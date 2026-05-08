@@ -6,6 +6,7 @@ var _text: String = ""
 var _age: float = 0.0
 var _rise_offset := Vector2.ZERO
 var _fill_color := Color(1.0, 0.92, 0.28, 1.0)
+var _pop_tween: Tween
 const DURATION := 1.05
 const FONT_SIZE := 80
 
@@ -29,8 +30,16 @@ func show_gain(amount: int, hit_count: int = 1) -> void:
 	_rise_offset = Vector2.ZERO
 	modulate = Color(1, 1, 1, 1)
 	global_rotation = 0.0
+	scale = Vector2(0.7, 0.7)
 	_sync_position_from_parent()
 	set_process(true)
+	if _pop_tween:
+		_pop_tween.kill()
+	_pop_tween = create_tween()
+	_pop_tween.set_trans(Tween.TRANS_BACK)
+	_pop_tween.set_ease(Tween.EASE_OUT)
+	_pop_tween.tween_property(self, "scale", Vector2(1.18, 1.18), 0.12)
+	_pop_tween.tween_property(self, "scale", Vector2.ONE, 0.1)
 	queue_redraw()
 
 
@@ -43,6 +52,7 @@ func _finish() -> void:
 	_rise_offset = Vector2.ZERO
 	set_process(false)
 	modulate = Color(1, 1, 1, 1)
+	scale = Vector2.ONE
 	queue_redraw()
 
 
