@@ -32,6 +32,7 @@ func _apply_defeat_font_fit() -> void:
 func show_overlay() -> void:
 	Globals.finish_current_run()
 	Globals.reset_to_first_level()
+	Globals.start_new_run()
 	show()
 	if animation_player:
 		animation_player.play("show_overlay")
@@ -42,5 +43,6 @@ func show_overlay() -> void:
 func _on_button_pressed() -> void:
 	if animation_player:
 		animation_player.stop()
+	Globals.start_new_run()
 	hide()
 	Events.location_changed.emit(Events.LOCATIONS.GAME)

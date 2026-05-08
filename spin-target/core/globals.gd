@@ -426,10 +426,10 @@ func get_level_result_lines() -> Array[String]:
 
 func get_run_result_cards() -> Array[Dictionary]:
 	return [
-		{"title": "Уровень", "value": str(run_max_level), "color": Color(0.08, 0.28, 0.46, 1.0)},
-		{"title": "Яблоки", "value": "+%d" % run_apples_gained, "color": Color(0.36, 0.2, 0.02, 1.0)},
-		{"title": "Метко!", "value": str(run_sharp_hits), "color": Color(0.48, 0.18, 0.02, 1.0)},
-		{"title": "Золото", "value": str(run_golden_apples), "color": Color(0.42, 0.24, 0.0, 1.0)}
+		{"title": "Уровень", "value": str(run_max_level), "color": Color(0.55, 0.88, 1.0, 1.0)},
+		{"title": "Яблоки", "value": "+%d" % run_apples_gained, "color": Color(0.95, 0.98, 1.0, 1.0)},
+		{"title": "Метко!", "value": str(run_sharp_hits), "color": Color(0.78, 0.72, 1.0, 1.0)},
+		{"title": "Золото", "value": str(run_golden_apples), "color": Color(0.65, 0.86, 1.0, 1.0)}
 	]
 
 
