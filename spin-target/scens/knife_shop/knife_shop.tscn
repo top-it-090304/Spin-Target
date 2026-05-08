@@ -120,6 +120,14 @@ text = "Description"
 horizontal_alignment = 1
 autowrap_mode = 3
 
+[node name="StatsLabel" type="Label" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.96, 1, 0.9)
+theme_override_font_sizes/font_size = 20
+text = "Stats"
+horizontal_alignment = 1
+autowrap_mode = 3
+
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/separator = ExtResource("2_52av2")

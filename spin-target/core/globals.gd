@@ -16,10 +16,10 @@ const DEFAULT_KNIFE_DATA := {
 	"description": "Надёжный стартовый нож.",
 	"speed_multiplier": 1.0,
 	"hit_width_multiplier": 1.0,
+	"weight": 1.0,
 	"apple_reward_multiplier": 1.0,
 	"golden_reward_multiplier": 1.0,
-	"sharp_hit_multiplier": 1.0,
-	"hit_feedback_multiplier": 1.0
+	"sharp_hit_multiplier": 1.0
 }
 const KNIFE_DATA := [
 	{
@@ -27,90 +27,90 @@ const KNIFE_DATA := [
 		"description": "Надёжный стартовый нож.",
 		"speed_multiplier": 1.0,
 		"hit_width_multiplier": 1.0,
+		"weight": 1.0,
 		"apple_reward_multiplier": 1.0,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.0,
-		"hit_feedback_multiplier": 1.0
+		"sharp_hit_multiplier": 1.0
 	},
 	{
 		"name": "Быстрый",
 		"description": "Быстро летит к мишени.",
 		"speed_multiplier": 1.22,
 		"hit_width_multiplier": 0.88,
+		"weight": 0.75,
 		"apple_reward_multiplier": 1.0,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.0,
-		"hit_feedback_multiplier": 0.95
+		"sharp_hit_multiplier": 1.0
 	},
 	{
 		"name": "Широкий",
 		"description": "Проще задевает яблоки.",
 		"speed_multiplier": 0.9,
 		"hit_width_multiplier": 1.28,
+		"weight": 1.05,
 		"apple_reward_multiplier": 1.0,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.0,
-		"hit_feedback_multiplier": 1.08
+		"sharp_hit_multiplier": 1.0
 	},
 	{
 		"name": "Садовый",
 		"description": "Даёт больше яблок за сбор.",
 		"speed_multiplier": 1.0,
 		"hit_width_multiplier": 1.0,
+		"weight": 0.95,
 		"apple_reward_multiplier": 1.25,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.0,
-		"hit_feedback_multiplier": 1.0
+		"sharp_hit_multiplier": 1.0
 	},
 	{
 		"name": "Точный",
 		"description": "Летит резко и точно.",
 		"speed_multiplier": 1.14,
 		"hit_width_multiplier": 0.94,
+		"weight": 0.85,
 		"apple_reward_multiplier": 1.0,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.0,
-		"hit_feedback_multiplier": 1.0
+		"sharp_hit_multiplier": 1.0
 	},
 	{
 		"name": "Тяжёлый",
 		"description": "Тяжёлый удар, широкий клинок.",
 		"speed_multiplier": 0.82,
 		"hit_width_multiplier": 1.22,
+		"weight": 1.65,
 		"apple_reward_multiplier": 1.0,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.0,
-		"hit_feedback_multiplier": 1.45
+		"sharp_hit_multiplier": 1.0
 	},
 	{
 		"name": "Золотой охотник",
 		"description": "Лучше раскрывает золотые яблоки.",
 		"speed_multiplier": 1.0,
 		"hit_width_multiplier": 1.02,
+		"weight": 1.25,
 		"apple_reward_multiplier": 1.0,
 		"golden_reward_multiplier": 1.5,
-		"sharp_hit_multiplier": 1.0,
-		"hit_feedback_multiplier": 1.0
+		"sharp_hit_multiplier": 1.0
 	},
 	{
 		"name": "Меткий",
 		"description": "Щедро награждает за меткий бросок.",
 		"speed_multiplier": 1.0,
 		"hit_width_multiplier": 1.08,
+		"weight": 1.0,
 		"apple_reward_multiplier": 1.0,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.4,
-		"hit_feedback_multiplier": 1.05
+		"sharp_hit_multiplier": 1.4
 	},
 	{
 		"name": "Мастерский",
 		"description": "Сбалансирован и приносит больше.",
 		"speed_multiplier": 1.08,
 		"hit_width_multiplier": 1.04,
+		"weight": 1.05,
 		"apple_reward_multiplier": 1.15,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.0,
-		"hit_feedback_multiplier": 1.0
+		"sharp_hit_multiplier": 1.0
 	}
 ]
 
@@ -161,6 +161,65 @@ func get_current_knife_data() -> Dictionary:
 
 func get_current_knife_stat(stat_name: String, default_value: float = 1.0) -> float:
 	return float(get_current_knife_data().get(stat_name, default_value))
+
+
+func get_knife_stat_lines(index: int) -> Array[String]:
+	var data := get_knife_data(index)
+	var speed_multiplier := float(data.get("speed_multiplier", 1.0))
+	var hit_width_multiplier := float(data.get("hit_width_multiplier", 1.0))
+	var weight := float(data.get("weight", 1.0))
+	var apple_multiplier := float(data.get("apple_reward_multiplier", 1.0))
+	var golden_multiplier := float(data.get("golden_reward_multiplier", 1.0))
+	var sharp_multiplier := float(data.get("sharp_hit_multiplier", 1.0))
+	var lines: Array[String] = []
+	lines.append("Скорость: %s" % _get_speed_label(speed_multiplier))
+	lines.append("Клинок: %s" % _get_blade_label(hit_width_multiplier))
+	lines.append("Вес: %s" % _get_weight_label(weight))
+	lines.append("Бонус: %s" % _get_bonus_label(apple_multiplier, golden_multiplier, sharp_multiplier))
+	return lines
+
+
+func _get_speed_label(multiplier: float) -> String:
+	if multiplier >= 1.18:
+		return "очень высокая"
+	if multiplier >= 1.08:
+		return "высокая"
+	if multiplier <= 0.9:
+		return "низкая"
+	return "средняя"
+
+
+func _get_blade_label(multiplier: float) -> String:
+	if multiplier >= 1.18:
+		return "широкий"
+	if multiplier >= 1.06:
+		return "чуть шире"
+	if multiplier <= 0.94:
+		return "узкий"
+	return "обычный"
+
+
+func _get_weight_label(weight: float) -> String:
+	if weight >= 1.45:
+		return "тяжёлый"
+	if weight >= 1.2:
+		return "увесистый"
+	if weight <= 0.9:
+		return "лёгкий"
+	return "средний"
+
+
+func _get_bonus_label(apple_multiplier: float, golden_multiplier: float, sharp_multiplier: float) -> String:
+	var bonuses: Array[String] = []
+	if apple_multiplier > 1.0:
+		bonuses.append("яблоки +%d%%" % int(round((apple_multiplier - 1.0) * 100.0)))
+	if golden_multiplier > 1.0:
+		bonuses.append("золотые +%d%%" % int(round((golden_multiplier - 1.0) * 100.0)))
+	if sharp_multiplier > 1.0:
+		bonuses.append("Метко! +%d%%" % int(round((sharp_multiplier - 1.0) * 100.0)))
+	if bonuses.is_empty():
+		return "нет"
+	return ", ".join(bonuses)
 
 
 func apply_current_knife_reward_multiplier(amount: int) -> int:

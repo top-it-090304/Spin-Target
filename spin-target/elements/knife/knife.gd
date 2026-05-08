@@ -51,7 +51,7 @@ func handle_collision(collision: KinematicCollision2D):
 		_play_wood_hit_sound()
 		collider.play_hit_feedback(
 			collision.get_position(),
-			Globals.get_current_knife_stat("hit_feedback_multiplier")
+			Globals.get_current_knife_stat("weight")
 		)
 		add_knife_to_target(collider)
 		change_state(State.IDLE)

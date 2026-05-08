@@ -3,6 +3,7 @@ extends Control
 @onready var preview := $MarginContainer/VBoxContainer/PreviewRow/PreviewPanel/MarginContainer/TextureRect
 @onready var name_label: Label = $MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/NameLabel
 @onready var description_label: Label = $MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/DescriptionLabel
+@onready var stats_label: Label = $MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsLabel
 
 
 func _ready() -> void:
@@ -27,3 +28,5 @@ func _on_knives_changed() -> void:
 		name_label.text = String(knife_data.get("name", ""))
 	if description_label:
 		description_label.text = String(knife_data.get("description", ""))
+	if stats_label:
+		stats_label.text = "\n".join(Globals.get_knife_stat_lines(Globals.current_knife_index))

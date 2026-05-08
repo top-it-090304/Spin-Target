@@ -11,6 +11,7 @@ const KNIFE_NUMBER_ON_TARGET := 3
 const MULTI_APPLE_HIT_WINDOW_SECONDS := 0.12
 const SHARP_HIT_REWARD_MULTIPLIER := 5
 const HIT_FLASH_SIZE := 56
+const SHAKE_WEIGHT_THRESHOLD := 1.2
 
 var knife_scene : PackedScene = load("res://elements/knife/knife.tscn")
 var apple_scene : PackedScene = load("res://elements/apple/apple.tscn")
@@ -165,11 +166,13 @@ func show_apple_reward_gained(amount: int) -> void:
 		reward_floater.show_gain(amount)
 
 
-func play_hit_feedback(global_hit_position: Vector2, strength_multiplier: float = 1.0) -> void:
+func play_hit_feedback(global_hit_position: Vector2, knife_weight: float = 1.0) -> void:
 	var scene := get_tree().current_scene
-	if scene and scene.has_method("shake_camera"):
-		scene.shake_camera(7.0 * strength_multiplier, 0.12)
-	_show_hit_flash(global_hit_position, strength_multiplier)
+	if knife_weight >= SHAKE_WEIGHT_THRESHOLD and scene and scene.has_method("shake_camera"):
+		var shake_strength := 5.0 + 5.0 * (knife_weight - SHAKE_WEIGHT_THRESHOLD)
+		var shake_duration := 0.1 + 0.06 * (knife_weight - SHAKE_WEIGHT_THRESHOLD)
+		scene.shake_camera(shake_strength, shake_duration)
+	_show_hit_flash(global_hit_position, knife_weight)
 
 
 func _show_hit_flash(global_hit_position: Vector2, strength_multiplier: float = 1.0) -> void:
