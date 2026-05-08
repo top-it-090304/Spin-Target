@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://buhhn8s6u68wi"]
+[gd_scene load_steps=8 format=3 uid="uid://buhhn8s6u68wi"]
 
 [ext_resource type="PackedScene" uid="uid://c077xke7ae2bo" path="res://elements/ui/hud/hud.tscn" id="1_jk3kb"]
 [ext_resource type="StyleBox" uid="uid://cm63rqsh26ry1" path="res://styles/green_line.stylebox" id="2_52av2"]
@@ -6,6 +6,18 @@
 [ext_resource type="PackedScene" uid="uid://c0l5tm55rphvt" path="res://scens/knife_shop/shop_item/shop_item.tscn" id="4_2keb8"]
 [ext_resource type="PackedScene" uid="uid://cds80n3i16mi" path="res://scens/knife_shop/unblock_butten/unblock_butten.tscn" id="5_ejbnp"]
 [ext_resource type="Script" uid="uid://b0ph8ica5d5l6" path="res://scens/knife_shop/knife_shop.gd" id="6_shop"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_description"]
+bg_color = Color(0.08, 0.09, 0.11, 0.78)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.99, 0.86, 0.27, 0.82)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="KnifeShop" type="Control"]
 layout_mode = 3
@@ -51,11 +63,62 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/separator = ExtResource("2_52av2")
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+[node name="PreviewRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 220)
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="PreviewPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/PreviewRow"]
+custom_minimum_size = Vector2(260, 220)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_description")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PreviewRow/PreviewPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/PreviewRow/PreviewPanel/MarginContainer"]
 layout_mode = 2
 texture = ExtResource("3_2keb8")
 stretch_mode = 5
+
+[node name="DescriptionPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer/PreviewRow"]
+custom_minimum_size = Vector2(360, 220)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_description")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.32, 1)
+theme_override_font_sizes/font_size = 34
+text = "Knife"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.92)
+theme_override_font_sizes/font_size = 26
+text = "Description"
+horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

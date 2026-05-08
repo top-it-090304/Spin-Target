@@ -11,11 +11,13 @@ var fly_away_diraction := Vector2.DOWN
 var flay_away_diviation := PI / 8.0
 
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var audio_hit: AudioStreamPlayer = $AudioHit
 @onready var audio_wood: AudioStreamPlayer = $AudioWood
 
 
 func _ready() -> void:
+	_apply_current_knife_stats()
 	_update_texture()
 
 func change_state(new_state: State):
@@ -28,7 +30,8 @@ func _physics_process(delta: float):
 			rotation += fly_away_rotation_speed * delta
 	
 		State.FLY_TO_TARGET:
-			var collision := move_and_collide(Vector2.UP * speed * delta)
+			var flight_speed := speed * Globals.get_current_knife_stat("speed_multiplier")
+			var collision := move_and_collide(Vector2.UP * flight_speed * delta)
 			if collision:
 				handle_collision(collision)
 
@@ -38,6 +41,7 @@ func throw_away(direction: Vector2):
 	change_state(State.FLY_AWAY)
 
 func throw():
+	_apply_current_knife_stats()
 	change_state(State.FLY_TO_TARGET)
 	_update_texture()
 
@@ -45,7 +49,10 @@ func handle_collision(collision: KinematicCollision2D):
 	var collider := collision.get_collider()
 	if collider is Target:
 		_play_wood_hit_sound()
-		collider.play_hit_feedback(collision.get_position())
+		collider.play_hit_feedback(
+			collision.get_position(),
+			Globals.get_current_knife_stat("hit_feedback_multiplier")
+		)
 		add_knife_to_target(collider)
 		change_state(State.IDLE)
 		# Увеличиваем комбо при успешном попадании
@@ -94,3 +101,9 @@ func _update_texture() -> void:
 	var texture := load(texture_path)
 	if texture:
 		sprite.texture = texture
+
+
+func _apply_current_knife_stats() -> void:
+	if collision_shape:
+		var hit_width := Globals.get_current_knife_stat("hit_width_multiplier")
+		collision_shape.scale = Vector2(hit_width, 1.0)

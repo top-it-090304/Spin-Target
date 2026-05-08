@@ -165,14 +165,14 @@ func show_apple_reward_gained(amount: int) -> void:
 		reward_floater.show_gain(amount)
 
 
-func play_hit_feedback(global_hit_position: Vector2) -> void:
+func play_hit_feedback(global_hit_position: Vector2, strength_multiplier: float = 1.0) -> void:
 	var scene := get_tree().current_scene
 	if scene and scene.has_method("shake_camera"):
-		scene.shake_camera(7.0, 0.12)
-	_show_hit_flash(global_hit_position)
+		scene.shake_camera(7.0 * strength_multiplier, 0.12)
+	_show_hit_flash(global_hit_position, strength_multiplier)
 
 
-func _show_hit_flash(global_hit_position: Vector2) -> void:
+func _show_hit_flash(global_hit_position: Vector2, strength_multiplier: float = 1.0) -> void:
 	if not hit_flash_texture:
 		hit_flash_texture = _create_hit_flash_texture()
 	var flash := Sprite2D.new()
@@ -182,8 +182,9 @@ func _show_hit_flash(global_hit_position: Vector2) -> void:
 	flash.modulate = Color(1.0, 0.9, 0.45, 0.85)
 	flash.scale = Vector2(0.45, 0.45)
 	add_child(flash)
+	var flash_size := 1.15 * strength_multiplier
 	var tween := create_tween()
-	tween.tween_property(flash, "scale", Vector2(1.15, 1.15), 0.12)
+	tween.tween_property(flash, "scale", Vector2(flash_size, flash_size), 0.12)
 	tween.parallel().tween_property(flash, "modulate:a", 0.0, 0.12)
 	tween.tween_callback(flash.queue_free)
 
@@ -207,7 +208,8 @@ func register_apple_hit(base_reward: int, body: Node2D) -> void:
 	var hit_count := _get_apple_hit_chain_count(body)
 	var reward := base_reward
 	if hit_count >= 2:
-		reward *= SHARP_HIT_REWARD_MULTIPLIER
+		var sharp_multiplier := float(SHARP_HIT_REWARD_MULTIPLIER) * Globals.get_current_knife_stat("sharp_hit_multiplier")
+		reward = int(round(float(reward) * sharp_multiplier))
 	if reward_floater and reward_floater.has_method("show_gain"):
 		reward_floater.show_gain(reward, hit_count)
 	else:

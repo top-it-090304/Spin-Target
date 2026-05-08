@@ -11,6 +11,108 @@ var rmg := RandomNumberGenerator.new()
 var apples: int = 0
 var unlocked_knives: Array = []
 const KNIVES_COUNT = 9
+const DEFAULT_KNIFE_DATA := {
+	"name": "Обычный",
+	"description": "Надёжный стартовый нож.",
+	"speed_multiplier": 1.0,
+	"hit_width_multiplier": 1.0,
+	"apple_reward_multiplier": 1.0,
+	"golden_reward_multiplier": 1.0,
+	"sharp_hit_multiplier": 1.0,
+	"hit_feedback_multiplier": 1.0
+}
+const KNIFE_DATA := [
+	{
+		"name": "Обычный",
+		"description": "Надёжный стартовый нож.",
+		"speed_multiplier": 1.0,
+		"hit_width_multiplier": 1.0,
+		"apple_reward_multiplier": 1.0,
+		"golden_reward_multiplier": 1.0,
+		"sharp_hit_multiplier": 1.0,
+		"hit_feedback_multiplier": 1.0
+	},
+	{
+		"name": "Быстрый",
+		"description": "Быстро летит к мишени.",
+		"speed_multiplier": 1.22,
+		"hit_width_multiplier": 0.88,
+		"apple_reward_multiplier": 1.0,
+		"golden_reward_multiplier": 1.0,
+		"sharp_hit_multiplier": 1.0,
+		"hit_feedback_multiplier": 0.95
+	},
+	{
+		"name": "Широкий",
+		"description": "Проще задевает яблоки.",
+		"speed_multiplier": 0.9,
+		"hit_width_multiplier": 1.28,
+		"apple_reward_multiplier": 1.0,
+		"golden_reward_multiplier": 1.0,
+		"sharp_hit_multiplier": 1.0,
+		"hit_feedback_multiplier": 1.08
+	},
+	{
+		"name": "Садовый",
+		"description": "Даёт больше яблок за сбор.",
+		"speed_multiplier": 1.0,
+		"hit_width_multiplier": 1.0,
+		"apple_reward_multiplier": 1.25,
+		"golden_reward_multiplier": 1.0,
+		"sharp_hit_multiplier": 1.0,
+		"hit_feedback_multiplier": 1.0
+	},
+	{
+		"name": "Точный",
+		"description": "Летит резко и точно.",
+		"speed_multiplier": 1.14,
+		"hit_width_multiplier": 0.94,
+		"apple_reward_multiplier": 1.0,
+		"golden_reward_multiplier": 1.0,
+		"sharp_hit_multiplier": 1.0,
+		"hit_feedback_multiplier": 1.0
+	},
+	{
+		"name": "Тяжёлый",
+		"description": "Тяжёлый удар, широкий клинок.",
+		"speed_multiplier": 0.82,
+		"hit_width_multiplier": 1.22,
+		"apple_reward_multiplier": 1.0,
+		"golden_reward_multiplier": 1.0,
+		"sharp_hit_multiplier": 1.0,
+		"hit_feedback_multiplier": 1.45
+	},
+	{
+		"name": "Золотой охотник",
+		"description": "Лучше раскрывает золотые яблоки.",
+		"speed_multiplier": 1.0,
+		"hit_width_multiplier": 1.02,
+		"apple_reward_multiplier": 1.0,
+		"golden_reward_multiplier": 1.5,
+		"sharp_hit_multiplier": 1.0,
+		"hit_feedback_multiplier": 1.0
+	},
+	{
+		"name": "Меткий",
+		"description": "Щедро награждает за меткий бросок.",
+		"speed_multiplier": 1.0,
+		"hit_width_multiplier": 1.08,
+		"apple_reward_multiplier": 1.0,
+		"golden_reward_multiplier": 1.0,
+		"sharp_hit_multiplier": 1.4,
+		"hit_feedback_multiplier": 1.05
+	},
+	{
+		"name": "Мастерский",
+		"description": "Сбалансирован и приносит больше.",
+		"speed_multiplier": 1.08,
+		"hit_width_multiplier": 1.04,
+		"apple_reward_multiplier": 1.15,
+		"golden_reward_multiplier": 1.0,
+		"sharp_hit_multiplier": 1.0,
+		"hit_feedback_multiplier": 1.0
+	}
+]
 
 const LEVEL_COUNT = 6
 var current_level: int = 0
@@ -45,6 +147,36 @@ func _ready() -> void:
 
 func handle_location_change(location: Events.LOCATIONS) -> void:
 	get_tree().change_scene_to_packed(location_to_scene.get(location))
+
+
+func get_knife_data(index: int) -> Dictionary:
+	if index < 0 or index >= KNIFE_DATA.size():
+		return DEFAULT_KNIFE_DATA
+	return KNIFE_DATA[index]
+
+
+func get_current_knife_data() -> Dictionary:
+	return get_knife_data(current_knife_index)
+
+
+func get_current_knife_stat(stat_name: String, default_value: float = 1.0) -> float:
+	return float(get_current_knife_data().get(stat_name, default_value))
+
+
+func apply_current_knife_reward_multiplier(amount: int) -> int:
+	return _apply_reward_multiplier(amount, get_current_knife_stat("apple_reward_multiplier"))
+
+
+func apply_current_knife_golden_multiplier(amount: int) -> int:
+	return _apply_reward_multiplier(amount, get_current_knife_stat("golden_reward_multiplier"))
+
+
+func _apply_reward_multiplier(amount: int, multiplier: float) -> int:
+	if amount <= 0:
+		return 0
+	if multiplier <= 1.0:
+		return amount
+	return max(amount + 1, int(round(float(amount) * multiplier)))
 
 
 func _init_knives() -> void:

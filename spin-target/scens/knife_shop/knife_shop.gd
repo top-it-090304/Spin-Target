@@ -1,6 +1,8 @@
 extends Control
 
-@onready var preview := $MarginContainer/VBoxContainer/TextureRect
+@onready var preview := $MarginContainer/VBoxContainer/PreviewRow/PreviewPanel/MarginContainer/TextureRect
+@onready var name_label: Label = $MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/NameLabel
+@onready var description_label: Label = $MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/DescriptionLabel
 
 
 func _ready() -> void:
@@ -20,3 +22,8 @@ func _on_knives_changed() -> void:
 	var texture := load(texture_path)
 	if texture:
 		preview.texture = texture
+	var knife_data := Globals.get_current_knife_data()
+	if name_label:
+		name_label.text = String(knife_data.get("name", ""))
+	if description_label:
+		description_label.text = String(knife_data.get("description", ""))

@@ -102,8 +102,10 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		if Globals.current_level == Globals.LEVEL_COUNT - 1:
 			var boss_index := int(Globals.total_levels_passed / Globals.LEVEL_COUNT) + 1
 			reward_amount = boss_index * 10
+		reward_amount = Globals.apply_current_knife_reward_multiplier(reward_amount)
 		if is_golden:
 			reward_amount *= GOLDEN_REWARD_MULTIPLIER
+			reward_amount = Globals.apply_current_knife_golden_multiplier(reward_amount)
 
 		var target: Target = _find_target()
 		if target != null:
