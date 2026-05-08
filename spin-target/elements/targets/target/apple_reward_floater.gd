@@ -58,9 +58,9 @@ func _finish() -> void:
 
 func _format_text(amount: int, hit_count: int) -> String:
 	if hit_count == 2:
-		return "Меткий! +%d" % amount
+		return "Метко! +%d" % amount
 	if hit_count >= 3:
-		return "Меткий! x%d +%d" % [hit_count, amount]
+		return "Метко! x%d +%d" % [hit_count, amount]
 	return "+%d" % amount
 
 
