@@ -139,7 +139,8 @@ var knife_prices: Array[int] = [
 
 func _ready() -> void:
 	if DisplayServer.get_name() != "headless":
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		DisplayServer.window_set_size(Vector2i(540, 960))
 	rmg.randomize()
 	_load_progress()
 	Events.location_changed.connect(handle_location_change)
@@ -164,6 +165,14 @@ func get_current_knife_stat(stat_name: String, default_value: float = 1.0) -> fl
 
 
 func get_knife_stat_lines(index: int) -> Array[String]:
+	var rows := get_knife_stat_rows(index)
+	var lines: Array[String] = []
+	for row in rows:
+		lines.append("%s: %s" % [String(row.get("title", "")), String(row.get("value", ""))])
+	return lines
+
+
+func get_knife_stat_rows(index: int) -> Array[Dictionary]:
 	var data := get_knife_data(index)
 	var speed_multiplier := float(data.get("speed_multiplier", 1.0))
 	var hit_width_multiplier := float(data.get("hit_width_multiplier", 1.0))
@@ -171,12 +180,77 @@ func get_knife_stat_lines(index: int) -> Array[String]:
 	var apple_multiplier := float(data.get("apple_reward_multiplier", 1.0))
 	var golden_multiplier := float(data.get("golden_reward_multiplier", 1.0))
 	var sharp_multiplier := float(data.get("sharp_hit_multiplier", 1.0))
-	var lines: Array[String] = []
-	lines.append("Скорость: %s" % _get_speed_label(speed_multiplier))
-	lines.append("Клинок: %s" % _get_blade_label(hit_width_multiplier))
-	lines.append("Вес: %s" % _get_weight_label(weight))
-	lines.append("Бонус: %s" % _get_bonus_label(apple_multiplier, golden_multiplier, sharp_multiplier))
-	return lines
+	return [
+		{
+			"title": "Скорость",
+			"value": _get_speed_label(speed_multiplier),
+			"level": _get_speed_level(speed_multiplier),
+			"kind": 0,
+			"color": Color(0.45, 0.83, 1.0, 1.0)
+		},
+		{
+			"title": "Клинок",
+			"value": _get_blade_label(hit_width_multiplier),
+			"level": _get_blade_level(hit_width_multiplier),
+			"kind": 1,
+			"color": Color(1.0, 0.88, 0.32, 1.0)
+		},
+		{
+			"title": "Вес",
+			"value": _get_weight_label(weight),
+			"level": _get_weight_level(weight),
+			"kind": 2,
+			"color": Color(1.0, 0.53, 0.32, 1.0)
+		},
+		{
+			"title": "Бонус",
+			"value": _get_bonus_label(apple_multiplier, golden_multiplier, sharp_multiplier),
+			"level": _get_bonus_level(apple_multiplier, golden_multiplier, sharp_multiplier),
+			"kind": 3,
+			"color": Color(0.53, 1.0, 0.48, 1.0)
+		}
+	]
+
+
+func _get_speed_level(multiplier: float) -> int:
+	if multiplier >= 1.18:
+		return 5
+	if multiplier >= 1.08:
+		return 4
+	if multiplier <= 0.9:
+		return 2
+	return 3
+
+
+func _get_blade_level(multiplier: float) -> int:
+	if multiplier >= 1.18:
+		return 5
+	if multiplier >= 1.06:
+		return 4
+	if multiplier <= 0.94:
+		return 2
+	return 3
+
+
+func _get_weight_level(weight: float) -> int:
+	if weight >= 1.45:
+		return 5
+	if weight >= 1.2:
+		return 4
+	if weight <= 0.9:
+		return 2
+	return 3
+
+
+func _get_bonus_level(apple_multiplier: float, golden_multiplier: float, sharp_multiplier: float) -> int:
+	var best_multiplier: float = max(apple_multiplier, max(golden_multiplier, sharp_multiplier))
+	if best_multiplier >= 1.45:
+		return 5
+	if best_multiplier >= 1.25:
+		return 4
+	if best_multiplier > 1.0:
+		return 3
+	return 1
 
 
 func _get_speed_label(multiplier: float) -> String:

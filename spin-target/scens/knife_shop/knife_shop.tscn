@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://buhhn8s6u68wi"]
+[gd_scene load_steps=9 format=3 uid="uid://buhhn8s6u68wi"]
 
 [ext_resource type="PackedScene" uid="uid://c077xke7ae2bo" path="res://elements/ui/hud/hud.tscn" id="1_jk3kb"]
 [ext_resource type="StyleBox" uid="uid://cm63rqsh26ry1" path="res://styles/green_line.stylebox" id="2_52av2"]
@@ -18,6 +18,18 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stat_row"]
+bg_color = Color(0.04, 0.06, 0.075, 0.58)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [node name="KnifeShop" type="Control"]
 layout_mode = 3
@@ -95,19 +107,19 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_description")
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 22
-theme_override_constants/margin_top = 20
+theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 22
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_bottom = 12
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 6
 alignment = 1
 
 [node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.32, 1)
-theme_override_font_sizes/font_size = 34
+theme_override_font_sizes/font_size = 30
 text = "Knife"
 horizontal_alignment = 1
 autowrap_mode = 3
@@ -115,18 +127,162 @@ autowrap_mode = 3
 [node name="DescriptionLabel" type="Label" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 0.92)
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 21
 text = "Description"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="StatsLabel" type="Label" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer"]
+[node name="StatsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.96, 1, 0.9)
-theme_override_font_sizes/font_size = 20
-text = "Stats"
-horizontal_alignment = 1
-autowrap_mode = 3
+theme_override_constants/separation = 4
+
+[node name="SpeedRow" type="PanelContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_row")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/SpeedRow"]
+layout_mode = 2
+theme_override_constants/margin_left = 9
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 9
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/SpeedRow/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Icon" type="ColorRect" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/SpeedRow/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+color = Color(0.45, 0.83, 1, 1)
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/SpeedRow/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.82, 0.86, 1)
+theme_override_font_sizes/font_size = 16
+text = "Скорость"
+
+[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/SpeedRow/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+theme_override_font_sizes/font_size = 16
+text = "средняя"
+horizontal_alignment = 2
+
+[node name="BladeRow" type="PanelContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_row")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/BladeRow"]
+layout_mode = 2
+theme_override_constants/margin_left = 9
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 9
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/BladeRow/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Icon" type="ColorRect" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/BladeRow/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+color = Color(1, 0.88, 0.32, 1)
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/BladeRow/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.82, 0.86, 1)
+theme_override_font_sizes/font_size = 16
+text = "Клинок"
+
+[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/BladeRow/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+theme_override_font_sizes/font_size = 16
+text = "обычный"
+horizontal_alignment = 2
+
+[node name="WeightRow" type="PanelContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_row")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/WeightRow"]
+layout_mode = 2
+theme_override_constants/margin_left = 9
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 9
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/WeightRow/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Icon" type="ColorRect" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/WeightRow/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+color = Color(1, 0.53, 0.32, 1)
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/WeightRow/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.82, 0.86, 1)
+theme_override_font_sizes/font_size = 16
+text = "Вес"
+
+[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/WeightRow/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+theme_override_font_sizes/font_size = 16
+text = "средний"
+horizontal_alignment = 2
+
+[node name="BonusRow" type="PanelContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_row")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/BonusRow"]
+layout_mode = 2
+theme_override_constants/margin_left = 9
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 9
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/BonusRow/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Icon" type="ColorRect" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/BonusRow/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+color = Color(0.53, 1, 0.48, 1)
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/BonusRow/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.82, 0.86, 1)
+theme_override_font_sizes/font_size = 16
+text = "Бонус"
+
+[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/StatsContainer/BonusRow/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+theme_override_font_sizes/font_size = 16
+text = "нет"
+horizontal_alignment = 2
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
