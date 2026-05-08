@@ -90,7 +90,7 @@ func _create_golden_aura_texture() -> Texture2D:
 	return ImageTexture.create_from_image(image)
 
 
-func _on_area_2d_body_entered(_body: Node2D) -> void:
+func _on_area_2d_body_entered(body: Node2D) -> void:
 	if not is_hitted:
 		is_hitted = true
 		if golden_aura_tween:
@@ -107,7 +107,7 @@ func _on_area_2d_body_entered(_body: Node2D) -> void:
 
 		var target: Target = _find_target()
 		if target != null:
-			target.show_apple_reward_gained(reward_amount)
+			target.register_apple_hit(reward_amount, body)
 		else:
 			Globals.add_apples(reward_amount)
 
@@ -117,9 +117,6 @@ func _on_area_2d_body_entered(_body: Node2D) -> void:
 			tween.parallel().tween_property(particle, "modulate", Color("ffffff00"), EXPOSION_TIME)
 
 		tween.play()
-
-		if target != null:
-			target.on_apple_hit()
 
 		await tween.finished
 		queue_free()

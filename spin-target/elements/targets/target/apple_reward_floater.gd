@@ -4,8 +4,8 @@ extends Node2D
 
 var _text: String = ""
 var _age: float = 0.0
-var _combo_count: int = 0
 var _rise_offset := Vector2.ZERO
+var _fill_color := Color(1.0, 0.92, 0.28, 1.0)
 const DURATION := 1.05
 const FONT_SIZE := 80
 
@@ -16,13 +16,14 @@ func _ready() -> void:
 	set_process(false)
 
 
-func show_gain(base_reward: int) -> void:
-	if base_reward <= 0:
+func show_gain(amount: int, hit_count: int = 1) -> void:
+	if amount <= 0:
 		return
-	_combo_count += 1
-	var grant: int = base_reward * _combo_count
-	_text = "+%d" % grant
-	Globals.add_apples(grant)
+	_text = _format_text(amount, hit_count)
+	_fill_color = Color(1.0, 0.92, 0.28, 1.0)
+	if hit_count >= 2:
+		_fill_color = Color(1.0, 0.72, 0.12, 1.0)
+	Globals.add_apples(amount)
 
 	_age = 0.0
 	_rise_offset = Vector2.ZERO
@@ -39,11 +40,18 @@ func stop_and_clear() -> void:
 
 func _finish() -> void:
 	_text = ""
-	_combo_count = 0
 	_rise_offset = Vector2.ZERO
 	set_process(false)
 	modulate = Color(1, 1, 1, 1)
 	queue_redraw()
+
+
+func _format_text(amount: int, hit_count: int) -> String:
+	if hit_count == 2:
+		return "Я даю яблок больше +%d" % amount
+	if hit_count >= 3:
+		return "Я даю яблок больше x%d +%d" % [hit_count, amount]
+	return "+%d" % amount
 
 
 func _sync_position_from_parent() -> void:
@@ -92,5 +100,5 @@ func _draw() -> void:
 				fs,
 				shadow
 			)
-	var fill := Color(1.0, 0.92, 0.28, modulate.a)
+	var fill := Color(_fill_color.r, _fill_color.g, _fill_color.b, modulate.a)
 	draw_string(font, pos, _text, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, fill)

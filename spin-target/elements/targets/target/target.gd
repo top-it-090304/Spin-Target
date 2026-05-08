@@ -8,6 +8,7 @@ const APPLE_POSITION := Vector2(0, 176)
 const OBJECT_MARGIN := PI / 5
 const APPLE_NUMBER_ON_TARGET := 6
 const KNIFE_NUMBER_ON_TARGET := 3
+const MULTI_APPLE_HIT_WINDOW_SECONDS := 0.12
 
 var knife_scene : PackedScene = load("res://elements/knife/knife.tscn")
 var apple_scene : PackedScene = load("res://elements/apple/apple.tscn")
@@ -16,6 +17,9 @@ var speed := PI
 
 var remaining_apples: int = 0
 var level_completed: bool = false
+var last_apple_hit_body_id: int = 0
+var last_apple_hit_time: float = -100.0
+var apple_hit_chain_count: int = 0
 
 # Динамическая скорость
 var base_speed := PI
@@ -156,6 +160,34 @@ func get_free_random_rotation(occupied_rotations: Array, generation_attemps=0):
 func show_apple_reward_gained(amount: int) -> void:
 	if reward_floater and reward_floater.has_method("show_gain"):
 		reward_floater.show_gain(amount)
+
+
+func register_apple_hit(base_reward: int, body: Node2D) -> void:
+	if level_completed:
+		return
+	var hit_count := _get_apple_hit_chain_count(body)
+	var reward := base_reward * hit_count
+	if reward_floater and reward_floater.has_method("show_gain"):
+		reward_floater.show_gain(reward, hit_count)
+	else:
+		Globals.add_apples(reward)
+	on_apple_hit()
+
+
+func _get_apple_hit_chain_count(body: Node2D) -> int:
+	var body_id := 0
+	if body:
+		body_id = body.get_instance_id()
+	var now := float(Time.get_ticks_msec()) / 1000.0
+	var same_body := body_id != 0 and body_id == last_apple_hit_body_id
+	var inside_window := now - last_apple_hit_time <= MULTI_APPLE_HIT_WINDOW_SECONDS
+	if same_body and inside_window:
+		apple_hit_chain_count += 1
+	else:
+		apple_hit_chain_count = 1
+	last_apple_hit_body_id = body_id
+	last_apple_hit_time = now
+	return apple_hit_chain_count
 
 
 func on_apple_hit() -> void:
