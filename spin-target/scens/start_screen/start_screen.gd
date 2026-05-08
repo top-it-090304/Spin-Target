@@ -9,16 +9,11 @@ extends Control
 @onready var reset_confirm_button: Button = $SettingsOverlay/ResetModalLayer/ResetCenter/ResetPanelWrap/ResetPanel/ResetInner/ResetVBox/ResetConfirmButton
 
 @onready var exit_confirm_layer: Control = $ExitConfirmLayer
-@onready var exit_stay_button: Button = $ExitConfirmLayer/ExitCenter/ExitPanelWrap/ExitPanel/ExitInner/ExitVBox/ExitStayButton
-@onready var exit_quit_button: Button = $ExitConfirmLayer/ExitCenter/ExitPanelWrap/ExitPanel/ExitInner/ExitVBox/ExitQuitButton
 
 @onready var play_button: Button = $MarginContainer/VBoxContainer/CenterContainer2/Button
 @onready var settings_open_button: Button = $MarginContainer/VBoxContainer/CenterContainerSettings/SettingsButton
 @onready var shop_button: TextureButton = $MarginContainer/VBoxContainer/CenterContainer3/TextureButton
 @onready var exit_button: Button = $HUD/MarginContainer/VBoxContainer/TopBar/HomeButton
-
-@onready var reset_progress_button: Button = $SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox/ResetProgressButton
-@onready var close_button: Button = $SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox/CloseButton
 
 
 func _ready() -> void:
@@ -35,31 +30,6 @@ func open_exit_confirmation() -> void:
 		return
 	exit_confirm_layer.show()
 	_set_main_menu_blocked(true)
-	if exit_stay_button:
-		exit_stay_button.grab_focus()
-
-
-func get_gamepad_overlay_chain() -> Array:
-	if exit_confirm_layer.visible:
-		return [exit_stay_button, exit_quit_button]
-	if not settings_overlay.visible:
-		return []
-	if reset_modal_layer.visible:
-		return [reset_cancel_button, reset_confirm_button]
-	return [music_slider, reset_progress_button, close_button]
-
-
-func gamepad_consume_back() -> bool:
-	if exit_confirm_layer.visible:
-		_close_exit_modal()
-		return true
-	if not settings_overlay.visible:
-		return false
-	if reset_modal_layer.visible:
-		_close_reset_modal()
-	else:
-		_close_settings()
-	return true
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -91,15 +61,14 @@ func _update_music_percent_label(percent: int) -> void:
 
 
 func _set_main_menu_blocked(blocked: bool) -> void:
-	var d := blocked
 	if play_button:
-		play_button.disabled = d
+		play_button.disabled = blocked
 	if settings_open_button:
-		settings_open_button.disabled = d
+		settings_open_button.disabled = blocked
 	if shop_button:
-		shop_button.disabled = d
+		shop_button.disabled = blocked
 	if exit_button:
-		exit_button.disabled = d
+		exit_button.disabled = blocked
 
 
 func _close_exit_modal() -> void:
@@ -128,8 +97,6 @@ func _on_settings_button_pressed() -> void:
 	settings_overlay.show()
 	_set_main_menu_blocked(true)
 	_sync_music_slider_from_music()
-	if music_slider:
-		music_slider.grab_focus()
 
 
 func _on_settings_close_pressed() -> void:
@@ -154,8 +121,6 @@ func _on_settings_dimmer_gui_input(event: InputEvent) -> void:
 func _open_reset_modal() -> void:
 	if reset_modal_layer:
 		reset_modal_layer.show()
-	if reset_cancel_button:
-		reset_cancel_button.grab_focus()
 
 
 func _close_reset_modal() -> void:
@@ -202,12 +167,6 @@ func _update_preview() -> void:
 		preview.texture = texture
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	# Поддержка геймпада для начала игры
-	if event.is_action_pressed("ui_accept"):
-		_on_button_pressed()
-
-
 func _on_button_pressed() -> void:
 	Globals.current_level = 0
 	Globals._save_progress()
@@ -216,7 +175,3 @@ func _on_button_pressed() -> void:
 
 func _on_texture_button_pressed() -> void:
 	Events.location_changed.emit(Events.LOCATIONS.SHOP)
-
-
-func _on_settings_button_pressed() -> void:
-	Events.location_changed.emit(Events.LOCATIONS.SETTINGS)

@@ -3,8 +3,7 @@ extends Node
 var location_to_scene = {
 	Events.LOCATIONS.GAME: preload("res://scens/game/game.tscn"),
 	Events.LOCATIONS.START: preload("res://scens/start_screen/start_screen.tscn"),
-	Events.LOCATIONS.SHOP: preload("res://scens/knife_shop/knife_shop.tscn"),
-	Events.LOCATIONS.SETTINGS: preload("res://scens/settings/settings.tscn")
+	Events.LOCATIONS.SHOP: preload("res://scens/knife_shop/knife_shop.tscn")
 }
 
 var rmg := RandomNumberGenerator.new()

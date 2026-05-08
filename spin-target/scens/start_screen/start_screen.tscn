@@ -108,7 +108,7 @@ theme_override_styles/hover_pressed = ExtResource("3_6yeio")
 theme_override_styles/hover = ExtResource("3_6yeio")
 theme_override_styles/pressed = ExtResource("3_6yeio")
 theme_override_styles/normal = ExtResource("3_6yeio")
-text = "PLAY"
+text = "ИГРАТЬ"
 
 [node name="CenterContainerSettings" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -406,7 +406,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
+mouse_filter = 1
 color = Color(0.03, 0.05, 0.08, 0.9)
 
 [node name="ExitCenter" type="CenterContainer" parent="ExitConfirmLayer"]
@@ -463,6 +463,8 @@ layout_mode = 2
 [node name="ExitStayButton" type="Button" parent="ExitConfirmLayer/ExitCenter/ExitPanelWrap/ExitPanel/ExitInner/ExitVBox"]
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
+focus_neighbor_top = NodePath("../ExitQuitButton")
+focus_neighbor_bottom = NodePath("../ExitQuitButton")
 theme_override_colors/font_hover_color = Color(0, 0.368627, 0, 1)
 theme_override_colors/font_color = Color(0, 0.278431, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0.278431, 0, 1)
@@ -479,6 +481,8 @@ text = "Остаться"
 [node name="ExitQuitButton" type="Button" parent="ExitConfirmLayer/ExitCenter/ExitPanelWrap/ExitPanel/ExitInner/ExitVBox"]
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
+focus_neighbor_top = NodePath("../ExitStayButton")
+focus_neighbor_bottom = NodePath("../ExitStayButton")
 theme_override_colors/font_color = Color(1, 0.93, 0.93, 1)
 theme_override_colors/font_hover_color = Color(1, 0.98, 0.98, 1)
 theme_override_colors/font_pressed_color = Color(0.92, 0.85, 0.85, 1)

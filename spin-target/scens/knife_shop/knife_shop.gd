@@ -20,4 +20,3 @@ func _on_knives_changed() -> void:
 	var texture := load(texture_path)
 	if texture:
 		preview.texture = texture
-

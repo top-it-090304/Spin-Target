@@ -15,6 +15,7 @@ var apple_scene : PackedScene = load("res://elements/apple/apple.tscn")
 var speed := PI
 
 var remaining_apples: int = 0
+var level_completed: bool = false
 
 # Динамическая скорость
 var base_speed := PI
@@ -153,12 +154,18 @@ func show_apple_reward_gained(amount: int) -> void:
 
 
 func on_apple_hit() -> void:
+	if level_completed:
+		return
 	remaining_apples -= 1
 	if remaining_apples <= 0:
 		_on_all_apples_collected()
 
 
 func _on_all_apples_collected() -> void:
+	if level_completed:
+		return
+	level_completed = true
+	remaining_apples = 0
 	explode()
 	var shooter := get_tree().get_first_node_in_group("knifeshooter")
 	if shooter:
@@ -215,4 +222,4 @@ func _get_apples_on_target() -> int:
 
 
 func has_apples_left() -> bool:
-	return _get_apples_on_target() > 0
+	return remaining_apples > 0

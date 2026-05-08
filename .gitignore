@@ -1,3 +1,11 @@
 # Пакеты RPM больше лимита GitHub (100 МиБ) в обычном репозитории не храним —
 # выкладываем сборки как вложения к релизам.
 *.rpm
+
+# Сборки под Windows (Godot export).
+/build/
+
+# Локальные инструменты экспорта (скачиваются отдельно).
+/spin-target/tools/*.tpz
+/spin-target/tools/*.zip
+/spin-target/tools/Godot_win64/

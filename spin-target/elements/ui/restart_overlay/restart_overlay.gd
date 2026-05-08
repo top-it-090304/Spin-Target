@@ -17,7 +17,7 @@ func _ready() -> void:
 	if defeat_panel:
 		defeat_panel.resized.connect(_on_defeat_panel_resized)
 	if caption_label:
-		caption_label.text = "Поражение"
+		caption_label.text = "ПОРАЖЕНИЕ"
 
 
 func _on_defeat_panel_resized() -> void:
@@ -30,6 +30,7 @@ func _apply_defeat_font_fit() -> void:
 
 
 func show_overlay() -> void:
+	Globals.reset_to_first_level()
 	show()
 	if animation_player:
 		animation_player.play("show_overlay")
@@ -41,6 +42,5 @@ func _on_button_pressed() -> void:
 	if animation_player:
 		animation_player.stop()
 	hide()
-	Globals.reset_to_first_level()
 	Events.location_changed.emit(Events.LOCATIONS.GAME)
 
