@@ -41,6 +41,18 @@ content_margin_top = 12
 content_margin_right = 16
 content_margin_bottom = 12
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_record_card"]
+bg_color = Color(1, 1, 1, 0.065)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.11)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [node name="StartScreen" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -192,7 +204,7 @@ theme_override_constants/margin_bottom = 26
 
 [node name="SettingsVBox" type="VBoxContainer" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin"]
 layout_mode = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 14
 
 [node name="TitleLabel" type="Label" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
 layout_mode = 2
@@ -249,6 +261,24 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.82, 0.86, 0.92, 1)
 theme_override_font_sizes/font_size = 20
 text = "Прогресс"
+
+[node name="BestRunTitle" type="Label" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.32, 1)
+theme_override_font_sizes/font_size = 22
+text = "Лучший проход"
+horizontal_alignment = 1
+
+[node name="BestStatsGrid" type="GridContainer" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="RecordsList" type="VBoxContainer" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 5
 
 [node name="ResetHint" type="Label" parent="SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox"]
 layout_mode = 2

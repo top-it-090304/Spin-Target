@@ -5,6 +5,8 @@ const PIP_COUNT := 5
 const EMPTY_PIP_COLOR := Color(1, 1, 1, 0.12)
 
 @onready var preview := $MarginContainer/VBoxContainer/PreviewRow/PreviewPanel/MarginContainer/TextureRect
+@onready var preview_panel: PanelContainer = $MarginContainer/VBoxContainer/PreviewRow/PreviewPanel
+@onready var description_panel: PanelContainer = $MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel
 @onready var name_label: Label = $MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/NameLabel
 @onready var description_label: Label = $MarginContainer/VBoxContainer/PreviewRow/DescriptionPanel/MarginContainer/VBoxContainer/DescriptionLabel
 @onready var stat_rows := [
@@ -33,7 +35,13 @@ func _on_knives_changed() -> void:
 	if texture:
 		preview.texture = texture
 	var knife_data := Globals.get_current_knife_data()
+	var accent := knife_data.get("effect_color", Color(1, 0.9, 0.32, 1)) as Color
+	_apply_panel_accent(preview_panel, accent)
+	_apply_panel_accent(description_panel, accent)
+	if preview:
+		preview.modulate = Color(1, 1, 1, 1).lerp(accent, 0.12)
 	if name_label:
+		name_label.add_theme_color_override("font_color", accent.lightened(0.12))
 		name_label.text = String(knife_data.get("name", ""))
 	if description_label:
 		description_label.hide()
@@ -102,3 +110,15 @@ func _update_pips(hbox: HBoxContainer, level: int, accent: Color) -> void:
 		if not pip:
 			continue
 		pip.color = accent if i < level else EMPTY_PIP_COLOR
+
+
+func _apply_panel_accent(panel: PanelContainer, accent: Color) -> void:
+	if not panel:
+		return
+	var style := panel.get_theme_stylebox("panel") as StyleBoxFlat
+	if not style:
+		return
+	var unique_style := style.duplicate() as StyleBoxFlat
+	unique_style.border_color = Color(accent.r, accent.g, accent.b, 0.82)
+	unique_style.bg_color = Color(0.05, 0.06, 0.075, 0.78).lerp(accent, 0.08)
+	panel.add_theme_stylebox_override("panel", unique_style)

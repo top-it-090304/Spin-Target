@@ -166,30 +166,82 @@ func show_apple_reward_gained(amount: int) -> void:
 		reward_floater.show_gain(amount)
 
 
-func play_hit_feedback(global_hit_position: Vector2, knife_weight: float = 1.0) -> void:
+func play_hit_feedback(global_hit_position: Vector2, knife_data: Dictionary = {}) -> void:
+	var knife_weight := float(knife_data.get("weight", 1.0))
 	var scene := get_tree().current_scene
 	if knife_weight >= SHAKE_WEIGHT_THRESHOLD and scene and scene.has_method("shake_camera"):
 		var shake_strength := 5.0 + 5.0 * (knife_weight - SHAKE_WEIGHT_THRESHOLD)
 		var shake_duration := 0.1 + 0.06 * (knife_weight - SHAKE_WEIGHT_THRESHOLD)
 		scene.shake_camera(shake_strength, shake_duration)
-	_show_hit_flash(global_hit_position, knife_weight)
+	_show_hit_flash(
+		global_hit_position,
+		knife_weight,
+		knife_data.get("effect_color", Color(1.0, 0.82, 0.22, 1.0)),
+		int(knife_data.get("hit_effect_kind", 0))
+	)
 
 
-func _show_hit_flash(global_hit_position: Vector2, strength_multiplier: float = 1.0) -> void:
+func _show_hit_flash(
+	global_hit_position: Vector2,
+	strength_multiplier: float = 1.0,
+	flash_color: Color = Color(1.0, 0.82, 0.22, 1.0),
+	hit_effect_kind: int = 0
+) -> void:
 	if not hit_flash_texture:
 		hit_flash_texture = _create_hit_flash_texture()
 	var flash := Sprite2D.new()
 	flash.texture = hit_flash_texture
 	flash.position = to_local(global_hit_position)
 	flash.z_index = 40
-	flash.modulate = Color(1.0, 0.9, 0.45, 0.85)
+	flash.modulate = Color(flash_color.r, flash_color.g, flash_color.b, 0.85)
 	flash.scale = Vector2(0.45, 0.45)
 	add_child(flash)
-	var flash_size := 1.15 * strength_multiplier
+	var flash_size := _get_hit_flash_size(strength_multiplier, hit_effect_kind)
 	var tween := create_tween()
 	tween.tween_property(flash, "scale", Vector2(flash_size, flash_size), 0.12)
 	tween.parallel().tween_property(flash, "modulate:a", 0.0, 0.12)
 	tween.tween_callback(flash.queue_free)
+	_spawn_hit_marks(global_hit_position, flash_color, hit_effect_kind)
+
+
+func _get_hit_flash_size(strength_multiplier: float, hit_effect_kind: int) -> float:
+	match hit_effect_kind:
+		1, 4, 7:
+			return 0.85 + strength_multiplier * 0.18
+		2, 5:
+			return 1.2 + strength_multiplier * 0.28
+		6, 8:
+			return 1.05 + strength_multiplier * 0.24
+		_:
+			return 1.0 + strength_multiplier * 0.18
+
+
+func _spawn_hit_marks(global_hit_position: Vector2, mark_color: Color, hit_effect_kind: int) -> void:
+	var mark_count := 4
+	match hit_effect_kind:
+		1, 4, 7:
+			mark_count = 3
+		2, 5:
+			mark_count = 7
+		3, 6, 8:
+			mark_count = 5
+	for i in range(mark_count):
+		var mark := Line2D.new()
+		mark.z_index = 41
+		mark.default_color = Color(mark_color.r, mark_color.g, mark_color.b, 0.72)
+		mark.width = 2.5 if hit_effect_kind != 5 else 4.0
+		mark.top_level = true
+		add_child(mark)
+		var angle := TAU * float(i) / float(mark_count)
+		if hit_effect_kind == 7:
+			angle += PI * 0.25
+		var start := global_hit_position + Vector2.RIGHT.rotated(angle) * 10.0
+		var end := global_hit_position + Vector2.RIGHT.rotated(angle) * (24.0 + 6.0 * float(hit_effect_kind % 3))
+		mark.add_point(start)
+		mark.add_point(end)
+		var tween := mark.create_tween()
+		tween.tween_property(mark, "modulate:a", 0.0, 0.16)
+		tween.tween_callback(mark.queue_free)
 
 
 func _create_hit_flash_texture() -> Texture2D:
@@ -211,6 +263,7 @@ func register_apple_hit(base_reward: int, body: Node2D) -> void:
 	var hit_count := _get_apple_hit_chain_count(body)
 	var reward := base_reward
 	if hit_count >= 2:
+		Globals.register_sharp_hit()
 		var sharp_multiplier := float(SHARP_HIT_REWARD_MULTIPLIER) * Globals.get_current_knife_stat("sharp_hit_multiplier")
 		reward = int(round(float(reward) * sharp_multiplier))
 	if reward_floater and reward_floater.has_method("show_gain"):
@@ -248,6 +301,7 @@ func _on_all_apples_collected() -> void:
 	if level_completed:
 		return
 	level_completed = true
+	Globals.register_level_completed()
 	remaining_apples = 0
 	explode()
 	var shooter := get_tree().get_first_node_in_group("knifeshooter")

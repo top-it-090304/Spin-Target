@@ -106,6 +106,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		if is_golden:
 			reward_amount *= GOLDEN_REWARD_MULTIPLIER
 			reward_amount = Globals.apply_current_knife_golden_multiplier(reward_amount)
+			Globals.register_golden_apple()
 
 		var target: Target = _find_target()
 		if target != null:

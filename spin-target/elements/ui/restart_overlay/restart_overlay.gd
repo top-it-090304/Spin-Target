@@ -30,6 +30,7 @@ func _apply_defeat_font_fit() -> void:
 
 
 func show_overlay() -> void:
+	Globals.finish_current_run()
 	Globals.reset_to_first_level()
 	show()
 	if animation_player:
@@ -43,4 +44,3 @@ func _on_button_pressed() -> void:
 		animation_player.stop()
 	hide()
 	Events.location_changed.emit(Events.LOCATIONS.GAME)
-

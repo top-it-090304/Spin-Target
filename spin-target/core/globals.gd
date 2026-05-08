@@ -19,7 +19,10 @@ const DEFAULT_KNIFE_DATA := {
 	"weight": 1.0,
 	"apple_reward_multiplier": 1.0,
 	"golden_reward_multiplier": 1.0,
-	"sharp_hit_multiplier": 1.0
+	"sharp_hit_multiplier": 1.0,
+	"effect_color": Color(1.0, 0.9, 0.45, 1.0),
+	"trail_kind": 0,
+	"hit_effect_kind": 0
 }
 const KNIFE_DATA := [
 	{
@@ -30,7 +33,10 @@ const KNIFE_DATA := [
 		"weight": 1.0,
 		"apple_reward_multiplier": 1.0,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.0
+		"sharp_hit_multiplier": 1.0,
+		"effect_color": Color(1.0, 0.9, 0.45, 1.0),
+		"trail_kind": 0,
+		"hit_effect_kind": 0
 	},
 	{
 		"name": "Быстрый",
@@ -40,7 +46,10 @@ const KNIFE_DATA := [
 		"weight": 0.75,
 		"apple_reward_multiplier": 1.0,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.0
+		"sharp_hit_multiplier": 1.0,
+		"effect_color": Color(0.42, 0.86, 1.0, 1.0),
+		"trail_kind": 1,
+		"hit_effect_kind": 1
 	},
 	{
 		"name": "Широкий",
@@ -50,7 +59,10 @@ const KNIFE_DATA := [
 		"weight": 1.05,
 		"apple_reward_multiplier": 1.0,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.0
+		"sharp_hit_multiplier": 1.0,
+		"effect_color": Color(1.0, 0.76, 0.28, 1.0),
+		"trail_kind": 2,
+		"hit_effect_kind": 2
 	},
 	{
 		"name": "Садовый",
@@ -60,7 +72,10 @@ const KNIFE_DATA := [
 		"weight": 0.95,
 		"apple_reward_multiplier": 1.25,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.0
+		"sharp_hit_multiplier": 1.0,
+		"effect_color": Color(0.45, 1.0, 0.48, 1.0),
+		"trail_kind": 3,
+		"hit_effect_kind": 3
 	},
 	{
 		"name": "Точный",
@@ -70,7 +85,10 @@ const KNIFE_DATA := [
 		"weight": 0.85,
 		"apple_reward_multiplier": 1.0,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.0
+		"sharp_hit_multiplier": 1.0,
+		"effect_color": Color(0.9, 0.96, 1.0, 1.0),
+		"trail_kind": 4,
+		"hit_effect_kind": 4
 	},
 	{
 		"name": "Тяжёлый",
@@ -80,7 +98,10 @@ const KNIFE_DATA := [
 		"weight": 1.65,
 		"apple_reward_multiplier": 1.0,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.0
+		"sharp_hit_multiplier": 1.0,
+		"effect_color": Color(1.0, 0.45, 0.28, 1.0),
+		"trail_kind": 5,
+		"hit_effect_kind": 5
 	},
 	{
 		"name": "Золотой охотник",
@@ -90,7 +111,10 @@ const KNIFE_DATA := [
 		"weight": 1.25,
 		"apple_reward_multiplier": 1.0,
 		"golden_reward_multiplier": 1.5,
-		"sharp_hit_multiplier": 1.0
+		"sharp_hit_multiplier": 1.0,
+		"effect_color": Color(1.0, 0.86, 0.12, 1.0),
+		"trail_kind": 6,
+		"hit_effect_kind": 6
 	},
 	{
 		"name": "Меткий",
@@ -100,7 +124,10 @@ const KNIFE_DATA := [
 		"weight": 1.0,
 		"apple_reward_multiplier": 1.0,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.4
+		"sharp_hit_multiplier": 1.4,
+		"effect_color": Color(1.0, 0.98, 0.62, 1.0),
+		"trail_kind": 7,
+		"hit_effect_kind": 7
 	},
 	{
 		"name": "Мастерский",
@@ -110,7 +137,10 @@ const KNIFE_DATA := [
 		"weight": 1.05,
 		"apple_reward_multiplier": 1.15,
 		"golden_reward_multiplier": 1.0,
-		"sharp_hit_multiplier": 1.0
+		"sharp_hit_multiplier": 1.0,
+		"effect_color": Color(0.66, 0.9, 1.0, 1.0),
+		"trail_kind": 8,
+		"hit_effect_kind": 8
 	}
 ]
 
@@ -120,6 +150,19 @@ var current_knife_index: int = 0
 
 var total_levels_passed: int = 0
 var max_level_record: int = 0
+var level_apples_gained: int = 0
+var level_throws: int = 0
+var level_sharp_hits: int = 0
+var level_golden_apples: int = 0
+var level_completed_recorded: bool = false
+var run_apples_gained: int = 0
+var run_throws: int = 0
+var run_sharp_hits: int = 0
+var run_golden_apples: int = 0
+var run_levels_completed: int = 0
+var run_max_level: int = 0
+var best_runs: Array = []
+const BEST_RUNS_LIMIT := 5
 
 # Combo system
 var current_combo: int = 0
@@ -320,12 +363,128 @@ func _init_knives() -> void:
 	Events.knives_changed.emit()
 
 
-func add_apples(amount: int) -> void:
+func start_level_run() -> void:
+	level_apples_gained = 0
+	level_throws = 0
+	level_sharp_hits = 0
+	level_golden_apples = 0
+	level_completed_recorded = false
+
+
+func start_new_run() -> void:
+	run_apples_gained = 0
+	run_throws = 0
+	run_sharp_hits = 0
+	run_golden_apples = 0
+	run_levels_completed = 0
+	run_max_level = current_level + 1
+	start_level_run()
+
+
+func register_throw() -> void:
+	level_throws += 1
+	run_throws += 1
+
+
+func register_sharp_hit() -> void:
+	level_sharp_hits += 1
+	run_sharp_hits += 1
+
+
+func register_golden_apple() -> void:
+	level_golden_apples += 1
+	run_golden_apples += 1
+
+
+func register_level_completed() -> void:
+	if level_completed_recorded:
+		return
+	level_completed_recorded = true
+	run_levels_completed += 1
+	run_max_level = max(run_max_level, run_levels_completed + 1)
+
+
+func add_apples(amount: int, count_for_progress: bool = true) -> void:
 	apples += amount
 	if apples < 0:
 		apples = 0
+	if amount > 0 and count_for_progress:
+		level_apples_gained += amount
+		run_apples_gained += amount
 	Events.apples_changed.emit(apples)
 	_save_progress()
+
+
+func get_level_result_lines() -> Array[String]:
+	var lines: Array[String] = []
+	lines.append("+%d" % level_apples_gained)
+	lines.append("%d" % level_throws)
+	lines.append("%d" % level_sharp_hits)
+	lines.append("%d" % level_golden_apples)
+	return lines
+
+
+func get_run_result_cards() -> Array[Dictionary]:
+	return [
+		{"title": "Уровень", "value": str(run_max_level), "color": Color(0.08, 0.28, 0.46, 1.0)},
+		{"title": "Яблоки", "value": "+%d" % run_apples_gained, "color": Color(0.36, 0.2, 0.02, 1.0)},
+		{"title": "Метко!", "value": str(run_sharp_hits), "color": Color(0.48, 0.18, 0.02, 1.0)},
+		{"title": "Золото", "value": str(run_golden_apples), "color": Color(0.42, 0.24, 0.0, 1.0)}
+	]
+
+
+func finish_current_run() -> void:
+	if run_levels_completed <= 0 and run_apples_gained <= 0 and run_throws <= 0:
+		return
+	var run := {
+		"level": run_max_level,
+		"levels_completed": run_levels_completed,
+		"apples": run_apples_gained,
+		"sharp": run_sharp_hits,
+		"golden": run_golden_apples,
+		"throws": run_throws,
+		"score": _get_run_score(run_max_level, run_apples_gained, run_sharp_hits, run_golden_apples)
+	}
+	best_runs.append(run)
+	best_runs.sort_custom(_compare_runs)
+	if best_runs.size() > BEST_RUNS_LIMIT:
+		best_runs.resize(BEST_RUNS_LIMIT)
+	_save_progress()
+
+
+func get_best_run() -> Dictionary:
+	if best_runs.is_empty():
+		return {}
+	return best_runs[0]
+
+
+func get_best_run_rows() -> Array[Dictionary]:
+	var best := get_best_run()
+	if best.is_empty():
+		return [
+			{"title": "Уровень", "value": "0"},
+			{"title": "Яблоки", "value": "0"},
+			{"title": "Метко!", "value": "0"},
+			{"title": "Золото", "value": "0"}
+		]
+	return [
+		{"title": "Уровень", "value": str(int(best.get("level", 0)))},
+		{"title": "Яблоки", "value": str(int(best.get("apples", 0)))},
+		{"title": "Метко!", "value": str(int(best.get("sharp", 0)))},
+		{"title": "Золото", "value": str(int(best.get("golden", 0)))}
+	]
+
+
+func get_best_runs_table() -> Array:
+	return best_runs
+
+
+func _get_run_score(level: int, apples_amount: int, sharp: int, golden: int) -> int:
+	return level * 10000 + apples_amount * 20 + sharp * 500 + golden * 700
+
+
+func _compare_runs(a: Dictionary, b: Dictionary) -> bool:
+	return int(a.get("score", 0)) > int(b.get("score", 0))
 
 
 func increase_combo() -> void:
@@ -404,6 +563,8 @@ func reset_full_progress() -> void:
 	current_knife_index = 0
 	total_levels_passed = 0
 	max_level_record = 0
+	best_runs = []
+	start_new_run()
 	_init_knives()
 	_save_progress()
 	Events.apples_changed.emit(apples)
@@ -455,6 +616,7 @@ func _save_progress() -> void:
 	config.set_value("progress", "unlocked_knives", unlocked_knives)
 	config.set_value("progress", "total_levels_passed", total_levels_passed)
 	config.set_value("progress", "max_level_record", max_level_record)
+	config.set_value("records", "best_runs", best_runs)
 	config.set_value("settings", "music_volume", music_volume)
 	config.set_value("settings", "sfx_volume", sfx_volume)
 	config.save("user://save.cfg")
@@ -474,6 +636,7 @@ func _load_progress() -> void:
 
 	total_levels_passed = int(config.get_value("progress", "total_levels_passed", 0))
 	max_level_record = int(config.get_value("progress", "max_level_record", 0))
+	best_runs = config.get_value("records", "best_runs", [])
 
 	music_volume = float(config.get_value("settings", "music_volume", 0.8))
 	sfx_volume = float(config.get_value("settings", "sfx_volume", 0.8))

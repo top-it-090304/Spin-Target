@@ -4,6 +4,7 @@ extends Control
 @onready var settings_overlay: Control = $SettingsOverlay
 @onready var music_slider: HSlider = $SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox/MusicRow/MusicSlider
 @onready var music_percent_label: Label = $SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox/MusicRow/MusicPercentLabel
+@onready var best_stats_grid: GridContainer = $SettingsOverlay/CenterRoot/PanelWrap/SettingsPanel/InnerMargin/SettingsVBox/BestStatsGrid
 @onready var reset_modal_layer: Control = $SettingsOverlay/ResetModalLayer
 @onready var reset_cancel_button: Button = $SettingsOverlay/ResetModalLayer/ResetCenter/ResetPanelWrap/ResetPanel/ResetInner/ResetVBox/ResetCancelButton
 @onready var reset_confirm_button: Button = $SettingsOverlay/ResetModalLayer/ResetCenter/ResetPanelWrap/ResetPanel/ResetInner/ResetVBox/ResetConfirmButton
@@ -18,6 +19,7 @@ extends Control
 
 func _ready() -> void:
 	_update_preview()
+	_update_records_view()
 	_sync_music_slider_from_music()
 	if reset_modal_layer:
 		reset_modal_layer.hide()
@@ -96,6 +98,7 @@ func _on_settings_button_pressed() -> void:
 		return
 	settings_overlay.show()
 	_set_main_menu_blocked(true)
+	_update_records_view()
 	_sync_music_slider_from_music()
 
 
@@ -169,9 +172,69 @@ func _update_preview() -> void:
 
 func _on_button_pressed() -> void:
 	Globals.current_level = 0
+	Globals.start_new_run()
 	Globals._save_progress()
 	Events.location_changed.emit(Events.LOCATIONS.GAME)
 
 
 func _on_texture_button_pressed() -> void:
 	Events.location_changed.emit(Events.LOCATIONS.SHOP)
+
+
+func _update_records_view() -> void:
+	_ensure_records_widgets()
+	if best_stats_grid:
+		var rows := Globals.get_best_run_rows()
+		for i in range(min(best_stats_grid.get_child_count(), rows.size())):
+			var card := best_stats_grid.get_child(i)
+			var title := card.get_node_or_null("VBoxContainer/TitleLabel") as Label
+			var value := card.get_node_or_null("VBoxContainer/ValueLabel") as Label
+			if title:
+				title.text = String(rows[i].get("title", ""))
+			if value:
+				value.text = String(rows[i].get("value", "0"))
+
+
+func _ensure_records_widgets() -> void:
+	if best_stats_grid and best_stats_grid.get_child_count() == 0:
+		for _i in range(4):
+			best_stats_grid.add_child(_create_record_stat_card())
+
+
+func _create_record_stat_card() -> PanelContainer:
+	var card := PanelContainer.new()
+	card.custom_minimum_size = Vector2(0, 72)
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.add_theme_stylebox_override("panel", _make_record_style())
+	var box := VBoxContainer.new()
+	box.name = "VBoxContainer"
+	box.alignment = BoxContainer.ALIGNMENT_CENTER
+	card.add_child(box)
+	var value := Label.new()
+	value.name = "ValueLabel"
+	value.add_theme_font_size_override("font_size", 30)
+	value.add_theme_color_override("font_color", Color(1, 0.9, 0.32, 1))
+	value.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(value)
+	var title := Label.new()
+	title.name = "TitleLabel"
+	title.add_theme_font_size_override("font_size", 13)
+	title.add_theme_color_override("font_color", Color(1, 1, 1, 0.68))
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(title)
+	return card
+
+
+func _make_record_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(1, 1, 1, 0.065)
+	style.border_color = Color(1, 1, 1, 0.11)
+	style.border_width_left = 1
+	style.border_width_top = 1
+	style.border_width_right = 1
+	style.border_width_bottom = 1
+	style.corner_radius_top_left = 8
+	style.corner_radius_top_right = 8
+	style.corner_radius_bottom_left = 8
+	style.corner_radius_bottom_right = 8
+	return style

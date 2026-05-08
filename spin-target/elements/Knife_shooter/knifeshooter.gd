@@ -39,6 +39,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	var throw_from_touch: bool = event is InputEventScreenTouch and event.is_pressed()
 	var throw_from_mouse: bool = event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT
 	if (throw_from_touch or throw_from_mouse) and timer.time_left <= 0:
+		Globals.register_throw()
 		knife.throw()
 		timer.start()
 

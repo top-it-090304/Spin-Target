@@ -11,6 +11,7 @@ var camera_base_offset := Vector2.ZERO
 
 func _ready() -> void:
 	Music.set_music_for_level(Globals.current_level)
+	Globals.start_level_run()
 	Globals.reset_combo()
 	if camera:
 		camera_base_offset = camera.offset
