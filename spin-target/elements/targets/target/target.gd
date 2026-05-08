@@ -9,6 +9,7 @@ const OBJECT_MARGIN := PI / 5
 const APPLE_NUMBER_ON_TARGET := 6
 const KNIFE_NUMBER_ON_TARGET := 3
 const MULTI_APPLE_HIT_WINDOW_SECONDS := 0.12
+const SHARP_HIT_REWARD_MULTIPLIER := 5
 
 var knife_scene : PackedScene = load("res://elements/knife/knife.tscn")
 var apple_scene : PackedScene = load("res://elements/apple/apple.tscn")
@@ -166,7 +167,9 @@ func register_apple_hit(base_reward: int, body: Node2D) -> void:
 	if level_completed:
 		return
 	var hit_count := _get_apple_hit_chain_count(body)
-	var reward := base_reward * hit_count
+	var reward := base_reward
+	if hit_count >= 2:
+		reward *= SHARP_HIT_REWARD_MULTIPLIER
 	if reward_floater and reward_floater.has_method("show_gain"):
 		reward_floater.show_gain(reward, hit_count)
 	else:
