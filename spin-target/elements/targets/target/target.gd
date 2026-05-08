@@ -116,6 +116,9 @@ func add_default_items(knifes: int, apples: int):
 		add_object_with_pivot(knife, pivot_rotation)
 		
 	remaining_apples = apples
+	var golden_apple_index := -1
+	if apples > 0:
+		golden_apple_index = Globals.rmg.randi_range(0, apples - 1)
 	for i in range(apples):
 		var pivot_rotation = get_free_random_rotation(occupied_rotations)
 		if pivot_rotation == null:
@@ -123,6 +126,8 @@ func add_default_items(knifes: int, apples: int):
 		occupied_rotations.append(pivot_rotation)
 		var apple = apple_scene.instantiate()
 		apple.position = APPLE_POSITION
+		if i == golden_apple_index and apple.has_method("make_golden"):
+			apple.make_golden()
 		add_object_with_pivot(apple, pivot_rotation)
 		
 	
